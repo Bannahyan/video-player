@@ -33,8 +33,15 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   useEffect(() => {
     if (videoRef.current) {
       setDurationOfVideo(videoRef.current.duration);
+      console.log('eee');
     }
   }, []);
+
+  useEffect(() => {
+    if (videoElement) {
+      videoElement.paused ? setIsPaused(true) : setIsPaused(false);
+    }
+  }, [videoElement]);
 
   useEffect(() => {
     const handleLoadedMetadata = () => {
@@ -121,27 +128,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       window.removeEventListener('orientationchange', orientationChange);
     };
   }, [orientationChange]);
-
-  const exitFullscreenHandler = useCallback(() => {
-    if (videoElement) {
-      videoElement.paused ? setIsPaused(true) : setIsPaused(false);
-    }
-  }, [videoElement]);
-
-  useEffect(() => {
-    if (videoElement) {
-      // Add event listener for fullscreenchange event
-      videoElement.addEventListener('fullscreenchange', exitFullscreenHandler);
-
-      return () => {
-        // Cleanup: Remove event listener when component unmounts
-        videoElement.removeEventListener(
-          'fullscreenchange',
-          exitFullscreenHandler
-        );
-      };
-    }
-  }, [exitFullscreenHandler, videoElement]);
 
   //handling play, pause and replay events
   const handleTogglePlay = () => {
