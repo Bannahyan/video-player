@@ -3,5 +3,5 @@
 }
 
 .box {
-  @apply w-full md:w-[80%] lg:w-[55%] p-1.5 sm:p-4 mx-auto bg-white shadow-md md:shadow-lg rounded-lg min-w-[230px];
+  @apply w-full md:w-[80%] p-0 lg:w-[55%] mx-auto bg-white shadow-xl md:shadow-2xl min-w-[230px];
 }
