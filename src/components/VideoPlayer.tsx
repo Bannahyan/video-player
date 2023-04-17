@@ -68,15 +68,6 @@ const VideoPlayer = () => {
     }
   };
 
-  const videoReplay = () => {
-    if (videoRef.current) {
-      setDurationOfVideo(videoRef.current.duration);
-      videoRef.current.currentTime = 0;
-      getDurationOfVideo();
-      videoRef.current.play();
-    }
-  };
-
   const getDurationOfVideo = () => {
     const videoIntervalTime = setInterval(() => {
       if (videoRef.current) {
@@ -92,6 +83,7 @@ const VideoPlayer = () => {
     };
   };
 
+  //change current duration of the video during scrubbing
   const videoDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (videoRef.current) {
       setCurrentDurationOfVideo(parseFloat(e.target.value));
@@ -99,8 +91,9 @@ const VideoPlayer = () => {
     }
   };
 
+  //function for handling the forward and backward click
   const handleForwardBackward = (forward: boolean) => {
-    const value = forward ? 10 : -10;
+    const value = forward ? 10 : -10; //10 seconds forward or backward
     if (videoRef.current) {
       const current = videoRef.current.currentTime;
       videoRef.current.currentTime = current + value;
@@ -113,6 +106,7 @@ const VideoPlayer = () => {
     }
   };
 
+  //function for handling double tapping on mobile
   const handleForwardBackwardMobile = (forward: boolean) => {
     let date = new Date();
     let time = date.getTime();
@@ -167,7 +161,6 @@ const VideoPlayer = () => {
         durationOfVideo={durationOfVideo}
         currentDurationOfVideo={currentDurationOfVideo}
         videoDuration={videoDuration}
-        videoReplay={videoReplay}
         handleTogglePlay={handleTogglePlay}
         isPaused={isPaused}
         videoElement={videoElement}

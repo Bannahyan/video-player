@@ -8,7 +8,6 @@ interface ControlsProps {
   durationOfVideo: number;
   currentDurationOfVideo: number;
   videoDuration: React.ChangeEventHandler<HTMLInputElement>;
-  videoReplay: React.MouseEventHandler<HTMLButtonElement>;
   handleTogglePlay: React.MouseEventHandler<HTMLButtonElement>;
   isPaused: boolean;
   videoElement: HTMLVideoElement | null;
@@ -18,7 +17,6 @@ const Controls = ({
   durationOfVideo,
   currentDurationOfVideo,
   videoDuration,
-  videoReplay,
   handleTogglePlay,
   isPaused,
   videoElement,
@@ -111,10 +109,7 @@ const Controls = ({
       />
       <div className={styles.controlsWrapper}>
         <div className={styles.controlsLeft}>
-          <button
-            onClick={isReplayButton ? videoReplay : handleTogglePlay}
-            className={styles.button}
-          >
+          <button onClick={handleTogglePlay} className={styles.button}>
             {isReplayButton ? (
               <MdOutlineReplay color='white' size={24} />
             ) : isPaused ? (
