@@ -1,0 +1,42 @@
+.videoContainer {
+  @apply w-full relative;
+}
+
+.videoContainer video {
+  @apply w-full bg-black;
+}
+
+.playPauseIcon {
+  @apply flex absolute left-1/2 top-[42%] transform -translate-x-1/2 -translate-y-1/2 aspect-square w-[10%] rounded-full items-center justify-center;
+  background-color: rgba(1, 1, 1, 0.5);
+}
+
+.playPauseIcon svg {
+  @apply sm:w-[30px] sm:h-[30px] h-[20px] w-[20px] xl:w-[40px] xl:h-[40px];
+}
+
+.fastForward {
+  @apply flex items-center justify-center absolute top-0 right-0 w-[30%] h-full opacity-0;
+  border-top-left-radius: 50px 50%;
+  border-bottom-left-radius: 50px 50%;
+  background-color: rgba(1, 1, 1, 0.5);
+}
+
+.fastBackward {
+  @apply flex items-center justify-center absolute top-0 left-0 w-[30%] h-full opacity-0;
+  border-top-right-radius: 50px 50%;
+  border-bottom-right-radius: 50px 50%;
+  background-color: rgba(1, 1, 1, 0.5);
+}
+
+.hidden {
+  @apply opacity-0 select-none transition-opacity duration-1000 ease-linear;
+}
+
+.visible {
+  @apply opacity-100 select-none transition-opacity duration-1000 ease-linear;
+}
+
+.text {
+  @apply text-white text-sm;
+}

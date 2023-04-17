@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { AiFillCaretRight, AiOutlinePause } from 'react-icons/ai';
 import { FaVolumeUp, FaVolumeMute, FaVolumeDown } from 'react-icons/fa';
 import { MdFullscreen, MdOutlineReplay } from 'react-icons/md';
-import styles from '../../styles/home.module.css';
+import styles from './styles.module.css';
 
 interface ControlsProps {
   durationOfVideo: number;
@@ -59,6 +59,7 @@ const Controls = ({
     };
   }, [orientationChange]);
 
+  //handling volume change event
   const handleChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMuted(false);
     if (videoElement) {
@@ -73,6 +74,7 @@ const Controls = ({
     }
   };
 
+  //handling mute/unmute button click
   const handdleToggleMute = () => {
     if (videoElement) {
       if (muted) {

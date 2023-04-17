@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import Controls from './Controls';
+import Controls from './ControlsPanel';
 import ForwardBackward from './ForwardBackwardLayer';
 import PlayPause from './PlayPauseAnimation';
-import styles from '../../styles/home.module.css';
+import styles from './styles.module.css';
 
 const VideoPlayer = () => {
   const [durationOfVideo, setDurationOfVideo] = useState(0);

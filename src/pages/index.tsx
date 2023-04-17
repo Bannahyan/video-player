@@ -1,5 +1,5 @@
-import styles from '../styles/home.module.css';
 import VideoPlayer from '@/components/VideoPlayer';
+import styles from '../styles/home.module.css';
 
 export default function Home() {
   return (

@@ -1,0 +1,28 @@
+.controls {
+  @apply flex flex-col absolute bottom-0 left-0 bg-transparent w-full p-3 pt-0;
+}
+
+.scrubber {
+  @apply mb-3 h-1;
+}
+
+.controlsWrapper {
+  @apply flex w-full items-center justify-between px-3;
+}
+
+.controlsLeft {
+  @apply flex items-center;
+}
+
+.controlsLeft button {
+  @apply mr-2;
+}
+
+.controlsLeft input {
+  @apply sm:w-[100px] w-[60px] h-1;
+}
+
+.controlsLeft button svg,
+.controlsWrapper button svg {
+  @apply sm:w-[24px] w-[20px] sm:h-[24px] h-[20px];
+}

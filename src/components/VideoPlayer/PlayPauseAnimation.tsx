@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { AiFillCaretRight, AiOutlinePause } from 'react-icons/ai';
-import styles from '../../styles/home.module.css';
+import styles from './styles.module.css';
 
 interface PlayPauseProps {
   areaClicked: boolean;
