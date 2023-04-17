@@ -13,6 +13,12 @@ interface ControlsProps {
   videoElement: HTMLVideoElement | null;
 }
 
+interface DocumentElementWithFullscreen extends HTMLElement {
+  msRequestFullscreen?: () => void;
+  mozRequestFullScreen?: () => void;
+  webkitRequestFullscreen?: () => void;
+}
+
 const Controls = ({
   durationOfVideo,
   currentDurationOfVideo,
@@ -87,18 +93,20 @@ const Controls = ({
   };
 
   //make video fullscreen on button click
-  const handleToggleFullScreen = () => {
-    if (videoElement) {
-      if (videoElement.requestFullscreen) {
-        videoElement.requestFullscreen({
+  const handleToggleFullScreen = (
+    element: DocumentElementWithFullscreen | null
+  ) => {
+    if (element) {
+      if (element.requestFullscreen) {
+        element.requestFullscreen({
           navigationUI: 'auto',
         });
-      } else if (videoElement.mozRequestFullScreen) {
+      } else if (element.mozRequestFullScreen) {
         // For older versions of Firefox
-        videoElement.mozRequestFullScreen();
-      } else if (videoElement.webkitRequestFullscreen) {
+        element.mozRequestFullScreen();
+      } else if (element.webkitRequestFullscreen) {
         // For older versions of Chrome, Safari and Opera
-        videoElement.webkitRequestFullscreen();
+        element.webkitRequestFullscreen();
       }
     }
   };
@@ -142,7 +150,10 @@ const Controls = ({
             onChange={handleChangeVolume}
           />
         </div>
-        <button onClick={handleToggleFullScreen} ref={fullScreenRef}>
+        <button
+          onClick={() => handleToggleFullScreen(videoElement)}
+          ref={fullScreenRef}
+        >
           <MdFullscreen color='white' />
         </button>
       </div>
