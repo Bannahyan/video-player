@@ -37,19 +37,11 @@ const Controls = ({
 
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
-    if (screen.orientation.type.includes('landscape')) {
-      if (videoElement) {
-        videoElement.requestFullscreen({
-          navigationUI: 'auto',
-        });
-      }
-      // else if (elem?.mozRequestFullScreen) {
-      //   elem?.mozRequestFullScreen();
-      // } else if (elem?.webkitRequestFullscreen) {
-      //   elem?.webkitRequestFullscreen();
-      // } else if (elem.msRequestFullscreen) {
-      //   elem.msRequestFullscreen();
-      // }
+    if (
+      screen.orientation.type.includes('landscape') &&
+      !document.fullscreenElement
+    ) {
+      handleToggleFullScreen(videoElement);
     } else {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -57,10 +49,9 @@ const Controls = ({
     }
   }, [videoElement]);
 
+  // Listen for the window.orientationchange event
   useEffect(() => {
-    // Listen for the window.orientationchange event
     window.addEventListener('orientationchange', orientationChange);
-    // Clean up the event listener
     return () => {
       window.removeEventListener('orientationchange', orientationChange);
     };
@@ -99,17 +90,30 @@ const Controls = ({
   ) => {
     if (element) {
       if (element.requestFullscreen) {
-        element.requestFullscreen({
-          navigationUI: 'auto',
-        });
+        element
+          .requestFullscreen({
+            navigationUI: 'auto',
+          })
+          .catch(err => {
+            console.log(
+              `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+            );
+          });
       } else if (element.mozRequestFullScreen) {
-        // For older versions of Firefox
-        element.mozRequestFullScreen();
+        element.mozRequestFullScreen(); // For older versions of Firefox
+        document.addEventListener('fullscreenerror', event => {
+          console.log(`Error attempting to enable full-screen mode: ${event}`);
+        });
       } else if (element.webkitRequestFullscreen) {
-        // For older versions of Chrome, Safari and Opera
-        element.webkitRequestFullscreen();
+        element.webkitRequestFullscreen(); // For older versions of Chrome, Safari and Opera
+        document.addEventListener('fullscreenerror', event => {
+          console.log(`Error attempting to enable full-screen mode: ${event}`);
+        });
       } else if (element.webkitEnterFullscreen) {
-        element.webkitEnterFullscreen();
+        element.webkitEnterFullscreen(); //For iOS devices
+        document.addEventListener('fullscreenerror', event => {
+          console.log(`Error attempting to enable full-screen mode: ${event}`);
+        });
       }
     }
   };
