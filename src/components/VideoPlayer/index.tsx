@@ -122,6 +122,27 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     };
   }, [orientationChange]);
 
+  const exitFullscreenHandler = useCallback(() => {
+    if (videoElement) {
+      videoElement.paused ? setIsPaused(true) : setIsPaused(false);
+    }
+  }, [videoElement]);
+
+  useEffect(() => {
+    if (videoElement) {
+      // Add event listener for fullscreenchange event
+      videoElement.addEventListener('fullscreenchange', exitFullscreenHandler);
+
+      return () => {
+        // Cleanup: Remove event listener when component unmounts
+        videoElement.removeEventListener(
+          'fullscreenchange',
+          exitFullscreenHandler
+        );
+      };
+    }
+  }, [exitFullscreenHandler, videoElement]);
+
   //handling play, pause and replay events
   const handleTogglePlay = () => {
     if (videoRef.current) {
