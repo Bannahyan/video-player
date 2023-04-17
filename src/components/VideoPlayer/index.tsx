@@ -135,6 +135,7 @@ const VideoPlayer = () => {
           handleTogglePlay();
         }}
         playsInline
+        webkit-playsinline='true'
       >
         <source type='video/mp4' src={'./assets/sunset.mp4'}></source>
       </video>
