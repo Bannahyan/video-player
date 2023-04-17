@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
+import Hls from 'hls.js';
 import classNames from 'classnames';
 import Controls from './ControlsPanel';
 import ForwardBackward from './ForwardBackwardLayer';
 import PlayPause from './PlayPauseAnimation';
 import styles from './styles.module.css';
 
-const VideoPlayer = () => {
+interface PlayerProps {
+  src: string;
+}
+
+const VideoPlayer = ({ src }: PlayerProps) => {
   const [durationOfVideo, setDurationOfVideo] = useState(0);
   const [currentDurationOfVideo, setCurrentDurationOfVideo] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
@@ -23,6 +28,38 @@ const VideoPlayer = () => {
       setDurationOfVideo(videoRef.current.duration);
     }
   }, []);
+
+  useEffect(() => {
+    const handleLoadedMetadata = () => {
+      // Access the duration property on the video element
+      if (videoElement) {
+        const duration = videoElement.duration;
+        setDurationOfVideo(duration);
+      }
+    };
+
+    if (!videoElement) return;
+    if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
+      videoElement.src = src; // This will run in safari, where HLS is supported natively
+    } else if (Hls.isSupported()) {
+      // This will run in all other modern browsers
+      const hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(videoElement);
+    } else {
+      console.error(
+        'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
+      );
+    }
+
+    // Add loadedmetadata event listener
+    videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
+
+    // Cleanup function to remove event listener on unmount or when src changes
+    return () => {
+      videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    };
+  }, [src, videoElement]);
 
   //handling fast forward/backward animation
   useEffect(() => {
@@ -61,7 +98,6 @@ const VideoPlayer = () => {
     if (videoRef.current) {
       if (videoRef.current.paused) {
         videoRef.current.play();
-        setDurationOfVideo(videoRef.current.duration);
         getDurationOfVideo();
         setIsPaused(false);
       } else {
@@ -136,9 +172,7 @@ const VideoPlayer = () => {
         }}
         playsInline
         webkit-playsinline='true'
-      >
-        <source type='video/mp4' src={'./assets/sunset.mp4'}></source>
-      </video>
+      ></video>
       <PlayPause
         areaClicked={areaClicked}
         setAreaClicked={setAreaClicked}

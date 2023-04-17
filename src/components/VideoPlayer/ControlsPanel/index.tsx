@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import { AiFillCaretRight, AiOutlinePause } from 'react-icons/ai';
 import { FaVolumeUp, FaVolumeMute, FaVolumeDown } from 'react-icons/fa';
 import { MdFullscreen, MdOutlineReplay } from 'react-icons/md';
@@ -32,8 +38,11 @@ const Controls = ({
   const [muted, setMuted] = useState(false);
   const fullScreenRef = useRef<HTMLButtonElement | null>(null);
 
-  const isReplayButton =
-    currentDurationOfVideo === durationOfVideo && currentDurationOfVideo !== 0;
+  const isReplayButton = useMemo(() => {
+    return (
+      currentDurationOfVideo >= durationOfVideo && currentDurationOfVideo !== 0
+    );
+  }, [currentDurationOfVideo, durationOfVideo]);
 
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
@@ -73,7 +82,7 @@ const Controls = ({
   };
 
   //handling mute/unmute button click
-  const handdleToggleMute = () => {
+  const handleToggleMute = () => {
     if (videoElement) {
       if (muted) {
         videoElement.muted = false;
@@ -139,7 +148,7 @@ const Controls = ({
               <AiOutlinePause color='white' />
             )}
           </button>
-          <button onClick={handdleToggleMute}>
+          <button onClick={handleToggleMute}>
             {muted ? (
               <FaVolumeMute color='white' />
             ) : volumeOfVideo > 50 ? (
