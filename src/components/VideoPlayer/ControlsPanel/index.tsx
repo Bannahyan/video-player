@@ -17,13 +17,7 @@ interface ControlsProps {
   handleTogglePlay: React.MouseEventHandler<HTMLButtonElement>;
   isPaused: boolean;
   videoElement: HTMLVideoElement | null;
-}
-
-interface DocumentElementWithFullscreen extends HTMLElement {
-  msRequestFullscreen?: () => void;
-  mozRequestFullScreen?: () => void;
-  webkitRequestFullscreen?: () => void;
-  webkitEnterFullscreen?: () => void;
+  handleToggleFullScreen: Function;
 }
 
 const Controls = ({
@@ -33,6 +27,7 @@ const Controls = ({
   handleTogglePlay,
   isPaused,
   videoElement,
+  handleToggleFullScreen,
 }: ControlsProps) => {
   const [volumeOfVideo, setVolumeOfVideo] = useState(50);
   const [muted, setMuted] = useState(false);
@@ -43,28 +38,6 @@ const Controls = ({
       currentDurationOfVideo >= durationOfVideo && currentDurationOfVideo !== 0
     );
   }, [currentDurationOfVideo, durationOfVideo]);
-
-  //handling screen orientation change event to make the video fullscreen
-  const orientationChange = useCallback(() => {
-    if (
-      screen.orientation.type.includes('landscape') &&
-      !document.fullscreenElement
-    ) {
-      handleToggleFullScreen(videoElement);
-    } else {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-      }
-    }
-  }, [videoElement]);
-
-  // Listen for the window.orientationchange event
-  useEffect(() => {
-    window.addEventListener('orientationchange', orientationChange);
-    return () => {
-      window.removeEventListener('orientationchange', orientationChange);
-    };
-  }, [orientationChange]);
 
   //handling volume change event
   const handleChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,40 +63,6 @@ const Controls = ({
         videoElement.muted = true;
       }
       setMuted(prev => !prev);
-    }
-  };
-
-  //make video fullscreen on button click
-  const handleToggleFullScreen = (
-    element: DocumentElementWithFullscreen | null
-  ) => {
-    if (element) {
-      if (element.requestFullscreen) {
-        element
-          .requestFullscreen({
-            navigationUI: 'auto',
-          })
-          .catch(err => {
-            console.log(
-              `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-            );
-          });
-      } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen(); // For older versions of Firefox
-        document.addEventListener('fullscreenerror', event => {
-          console.log(`Error attempting to enable full-screen mode: ${event}`);
-        });
-      } else if (element.webkitRequestFullscreen) {
-        element.webkitRequestFullscreen(); // For older versions of Chrome, Safari and Opera
-        document.addEventListener('fullscreenerror', event => {
-          console.log(`Error attempting to enable full-screen mode: ${event}`);
-        });
-      } else if (element.webkitEnterFullscreen) {
-        element.webkitEnterFullscreen(); //For iOS devices
-        document.addEventListener('fullscreenerror', event => {
-          console.log(`Error attempting to enable full-screen mode: ${event}`);
-        });
-      }
     }
   };
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Hls from 'hls.js';
 import classNames from 'classnames';
 import Controls from './ControlsPanel';
@@ -8,6 +8,13 @@ import styles from './styles.module.css';
 
 interface PlayerProps {
   src: string;
+}
+
+interface DocumentElementWithFullscreen extends HTMLElement {
+  msRequestFullscreen?: () => void;
+  mozRequestFullScreen?: () => void;
+  webkitRequestFullscreen?: () => void;
+  webkitEnterFullscreen?: () => void;
 }
 
 const VideoPlayer = ({ src }: PlayerProps) => {
@@ -93,6 +100,28 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     };
   }, [areaClicked]);
 
+  //handling screen orientation change event to make the video fullscreen
+  const orientationChange = useCallback(() => {
+    if (
+      screen.orientation.type.includes('landscape') &&
+      !document.fullscreenElement
+    ) {
+      handleToggleFullScreen(videoElement);
+    } else {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    }
+  }, [videoElement]);
+
+  // Listen for the window.orientationchange event
+  useEffect(() => {
+    window.addEventListener('orientationchange', orientationChange);
+    return () => {
+      window.removeEventListener('orientationchange', orientationChange);
+    };
+  }, [orientationChange]);
+
   //handling play, pause and replay events
   const handleTogglePlay = () => {
     if (videoRef.current) {
@@ -162,6 +191,40 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   };
 
+  //make video fullscreen on button click
+  const handleToggleFullScreen = (
+    element: DocumentElementWithFullscreen | null
+  ) => {
+    if (element) {
+      if (element.requestFullscreen) {
+        element
+          .requestFullscreen({
+            navigationUI: 'auto',
+          })
+          .catch(err => {
+            console.log(
+              `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
+            );
+          });
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen(); // For older versions of Firefox
+        document.addEventListener('fullscreenerror', event => {
+          console.log(`Error attempting to enable full-screen mode: ${event}`);
+        });
+      } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen(); // For older versions of Chrome, Safari and Opera
+        document.addEventListener('fullscreenerror', event => {
+          console.log(`Error attempting to enable full-screen mode: ${event}`);
+        });
+      } else if (element.webkitEnterFullscreen) {
+        element.webkitEnterFullscreen(); //For iOS devices
+        document.addEventListener('fullscreenerror', event => {
+          console.log(`Error attempting to enable full-screen mode: ${event}`);
+        });
+      }
+    }
+  };
+
   return (
     <div className={styles.videoContainer}>
       <video
@@ -204,6 +267,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         handleTogglePlay={handleTogglePlay}
         isPaused={isPaused}
         videoElement={videoElement}
+        handleToggleFullScreen={handleToggleFullScreen}
       />
     </div>
   );
