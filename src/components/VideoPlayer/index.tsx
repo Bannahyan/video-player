@@ -33,15 +33,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   useEffect(() => {
     if (videoRef.current) {
       setDurationOfVideo(videoRef.current.duration);
-      console.log('eee');
     }
   }, []);
-
-  useEffect(() => {
-    if (videoElement) {
-      videoElement.paused ? setIsPaused(true) : setIsPaused(false);
-    }
-  }, [videoElement]);
 
   useEffect(() => {
     const handleLoadedMetadata = () => {
