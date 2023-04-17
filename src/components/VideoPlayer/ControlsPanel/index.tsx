@@ -148,23 +148,25 @@ const Controls = ({
               <AiOutlinePause color='white' />
             )}
           </button>
-          <button onClick={handleToggleMute}>
-            {muted ? (
-              <FaVolumeMute color='white' />
-            ) : volumeOfVideo > 50 ? (
-              <FaVolumeUp color='white' />
-            ) : (
-              <FaVolumeDown color='white' />
-            )}
-          </button>
-          <input
-            type='range'
-            min='0'
-            max='100'
-            step='1'
-            value={muted ? 0 : volumeOfVideo}
-            onChange={handleChangeVolume}
-          />
+          <div className={styles.volumeControls}>
+            <button onClick={handleToggleMute}>
+              {muted ? (
+                <FaVolumeMute color='white' />
+              ) : volumeOfVideo > 50 ? (
+                <FaVolumeUp color='white' />
+              ) : (
+                <FaVolumeDown color='white' />
+              )}
+            </button>
+            <input
+              type='range'
+              min='0'
+              max='100'
+              step='1'
+              value={muted ? 0 : volumeOfVideo}
+              onChange={handleChangeVolume}
+            />
+          </div>
         </div>
         <button
           onClick={() => handleToggleFullScreen(videoElement)}

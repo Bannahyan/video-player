@@ -1,5 +1,5 @@
 .controls {
-  @apply flex flex-col absolute bottom-0 left-0 bg-transparent w-full p-3 pt-0;
+  @apply flex flex-col absolute bottom-0 left-0 w-full p-3 pt-0 bg-black/10;
 }
 
 .scrubber {
@@ -14,15 +14,21 @@
   @apply flex items-center;
 }
 
-.controlsLeft button {
+.volumeControls {
+  @apply hidden lg:flex items-center;
+}
+
+.controlsLeft button,
+.volumeControls button {
   @apply mr-2;
 }
 
-.controlsLeft input {
+.volumeControls input {
   @apply sm:w-[100px] w-[60px] h-1;
 }
 
 .controlsLeft button svg,
-.controlsWrapper button svg {
+.controlsWrapper button svg,
+.volumeControls button svg {
   @apply sm:w-[24px] w-[20px] sm:h-[24px] h-[20px];
 }
