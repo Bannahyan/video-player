@@ -36,15 +36,15 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    const handleLoadedMetadata = () => {
-      // Access the duration property on the video element
-      if (videoElement) {
-        const duration = videoElement.duration;
-        setDurationOfVideo(duration);
-      }
-    };
+  const handleLoadedMetadata = useCallback(() => {
+    // Access the duration property on the video element
+    if (videoElement) {
+      const duration = videoElement.duration;
+      setDurationOfVideo(duration);
+    }
+  }, [videoElement]);
 
+  useEffect(() => {
     if (!videoElement) return;
     if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
       videoElement.src = src; // This will run in safari, where HLS is supported natively

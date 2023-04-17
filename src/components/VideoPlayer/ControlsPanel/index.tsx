@@ -33,6 +33,8 @@ const Controls = ({
   const [muted, setMuted] = useState(false);
   const fullScreenRef = useRef<HTMLButtonElement | null>(null);
 
+  console.log(durationOfVideo, 'durationOfVideodurationOfVideo');
+
   const isReplayButton = useMemo(() => {
     return (
       currentDurationOfVideo >= durationOfVideo && currentDurationOfVideo !== 0
@@ -71,7 +73,7 @@ const Controls = ({
       <input
         type='range'
         min='0'
-        max={durationOfVideo}
+        max={durationOfVideo.toString()}
         value={currentDurationOfVideo}
         onChange={videoDuration}
         className={styles.scrubber}
