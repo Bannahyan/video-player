@@ -134,6 +134,7 @@ const VideoPlayer = () => {
           setAreaClicked(true);
           handleTogglePlay();
         }}
+        playsInline
       >
         <source type='video/mp4' src={'./assets/sunset.mp4'}></source>
       </video>
