@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Controls from './Controls';
 import ForwardBackward from './ForwardBackwardLayer';
 import PlayPause from './PlayPauseAnimation';
-import styles from '../styles/home.module.css';
+import styles from '../../styles/home.module.css';
 
 const VideoPlayer = () => {
   const [durationOfVideo, setDurationOfVideo] = useState(0);
@@ -24,6 +24,7 @@ const VideoPlayer = () => {
     }
   }, []);
 
+  //handling fast forward/backward animation
   useEffect(() => {
     let timeoutId: NodeJS.Timeout | undefined;
     if (fastForwardClicked) {
@@ -42,6 +43,7 @@ const VideoPlayer = () => {
     };
   }, [fastForwardClicked, backwardClicked]);
 
+  //handling play/pause centered icon animation
   useEffect(() => {
     let areaId: NodeJS.Timeout | undefined;
     if (areaClicked) {
@@ -54,6 +56,7 @@ const VideoPlayer = () => {
     };
   }, [areaClicked]);
 
+  //handling play, pause and replay events
   const handleTogglePlay = () => {
     if (videoRef.current) {
       if (videoRef.current.paused) {
@@ -68,6 +71,7 @@ const VideoPlayer = () => {
     }
   };
 
+  //changing scrubber value every 0.1 second
   const getDurationOfVideo = () => {
     const videoIntervalTime = setInterval(() => {
       if (videoRef.current) {
@@ -110,7 +114,7 @@ const VideoPlayer = () => {
   const handleForwardBackwardMobile = (forward: boolean) => {
     let date = new Date();
     let time = date.getTime();
-    const time_between_taps = 300;
+    const time_between_taps = 300; //time between two taps should be not more than 300ms
     const clickedTime = forward ? forwardClickedTime : backwardClickedTime;
     if (time - clickedTime <= time_between_taps) {
       handleForwardBackward(forward);

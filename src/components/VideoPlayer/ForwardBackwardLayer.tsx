@@ -2,7 +2,7 @@ import React from 'react';
 import { Inter } from 'next/font/google';
 import classNames from 'classnames';
 import { MdFastForward, MdFastRewind } from 'react-icons/md';
-import styles from '../styles/home.module.css';
+import styles from '../../styles/home.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
 

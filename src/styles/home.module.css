@@ -14,32 +14,32 @@
   @apply w-full bg-black;
 }
 
-.controlsWrapper {
-  @apply flex w-full items-center justify-between px-3;
-}
-
 .controls {
   @apply flex flex-col absolute bottom-0 left-0 bg-transparent w-full p-3 pt-0;
+}
+
+.controlsWrapper {
+  @apply flex w-full items-center justify-between px-3;
 }
 
 .controlsLeft {
   @apply flex items-center;
 }
 
-.button {
+.controlsLeft button {
   @apply mr-2;
 }
 
-.volumeBar {
+.controlsLeft input {
   @apply sm:w-[100px] w-[60px] h-1;
 }
 
-.button svg,
-.fullScreenButton svg {
+.controlsLeft button svg,
+.controlsWrapper button svg {
   @apply sm:w-[24px] w-[20px] sm:h-[24px] h-[20px];
 }
 
-.progressBar {
+.scrubber {
   @apply mb-3 h-1;
 }
 

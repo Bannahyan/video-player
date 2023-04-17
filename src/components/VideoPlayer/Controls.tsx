@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { AiFillCaretRight, AiOutlinePause } from 'react-icons/ai';
 import { FaVolumeUp, FaVolumeMute, FaVolumeDown } from 'react-icons/fa';
 import { MdFullscreen, MdOutlineReplay } from 'react-icons/md';
-import styles from '../styles/home.module.css';
+import styles from '../../styles/home.module.css';
 
 interface ControlsProps {
   durationOfVideo: number;
@@ -23,11 +23,12 @@ const Controls = ({
 }: ControlsProps) => {
   const [volumeOfVideo, setVolumeOfVideo] = useState(50);
   const [muted, setMuted] = useState(false);
+  const fullScreenRef = useRef<HTMLButtonElement | null>(null);
+
   const isReplayButton =
     currentDurationOfVideo === durationOfVideo && currentDurationOfVideo !== 0;
 
-  const fullScreenRef = useRef<HTMLButtonElement | null>(null);
-
+  //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
     if (screen.orientation.type.includes('landscape')) {
       if (videoElement) {
@@ -61,6 +62,7 @@ const Controls = ({
   const handleChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMuted(false);
     if (videoElement) {
+      videoElement.muted = false;
       const volume = e.target.value;
       const volumeValue = parseFloat(volume) / 100;
       setVolumeOfVideo(parseFloat(volume));
@@ -82,6 +84,7 @@ const Controls = ({
     }
   };
 
+  //make video fullscreen on button click
   const handleToggleFullScreen = () => {
     if (videoElement) {
       if (videoElement.requestFullscreen) {
@@ -105,26 +108,26 @@ const Controls = ({
         max={durationOfVideo}
         value={currentDurationOfVideo}
         onChange={videoDuration}
-        className={styles.progressBar}
+        className={styles.scrubber}
       />
       <div className={styles.controlsWrapper}>
         <div className={styles.controlsLeft}>
-          <button onClick={handleTogglePlay} className={styles.button}>
+          <button onClick={handleTogglePlay}>
             {isReplayButton ? (
-              <MdOutlineReplay color='white' size={24} />
+              <MdOutlineReplay color='white' />
             ) : isPaused ? (
-              <AiFillCaretRight color='white' size={24} />
+              <AiFillCaretRight color='white' />
             ) : (
-              <AiOutlinePause color='white' size={24} />
+              <AiOutlinePause color='white' />
             )}
           </button>
-          <button className={styles.button} onClick={handdleToggleMute}>
+          <button onClick={handdleToggleMute}>
             {muted ? (
-              <FaVolumeMute color='white' size={24} />
+              <FaVolumeMute color='white' />
             ) : volumeOfVideo > 50 ? (
-              <FaVolumeUp color='white' size={24} />
+              <FaVolumeUp color='white' />
             ) : (
-              <FaVolumeDown color='white' size={24} />
+              <FaVolumeDown color='white' />
             )}
           </button>
           <input
@@ -134,15 +137,10 @@ const Controls = ({
             step='1'
             value={muted ? 0 : volumeOfVideo}
             onChange={handleChangeVolume}
-            className={styles.volumeBar}
           />
         </div>
-        <button
-          className={styles.fullScreenButton}
-          onClick={handleToggleFullScreen}
-          ref={fullScreenRef}
-        >
-          <MdFullscreen color='white' size={24} />
+        <button onClick={handleToggleFullScreen} ref={fullScreenRef}>
+          <MdFullscreen color='white' />
         </button>
       </div>
     </div>
