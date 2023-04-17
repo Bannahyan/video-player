@@ -93,12 +93,13 @@ const Controls = ({
         videoElement.requestFullscreen({
           navigationUI: 'auto',
         });
+      } else if (videoElement.mozRequestFullScreen) {
+        // For older versions of Firefox
+        videoElement.mozRequestFullScreen();
+      } else if (videoElement.webkitRequestFullscreen) {
+        // For older versions of Chrome, Safari and Opera
+        videoElement.webkitRequestFullscreen();
       }
-      // else if (videoElement.mozRequestFullScreen) { // For older versions of Firefox
-      //   videoElement.mozRequestFullScreen();
-      // } else if (videoElement.webkitRequestFullscreen) { // For older versions of Chrome, Safari and Opera
-      //   videoElement.webkitRequestFullscreen();
-      // }
     }
   };
 
