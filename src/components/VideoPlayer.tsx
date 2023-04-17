@@ -15,7 +15,7 @@ const VideoPlayer = () => {
   const [forwardClickedTime, setForwardClickedTime] = useState(0);
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const videoElement = videoRef.current as HTMLVideoElement;
+  const videoElement = videoRef.current;
 
   //setting the duration of the video in order to be able to scrub the video
   useEffect(() => {

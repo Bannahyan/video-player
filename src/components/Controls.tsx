@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { AiFillCaretRight, AiOutlinePause } from 'react-icons/ai';
 import { FaVolumeUp, FaVolumeMute, FaVolumeDown } from 'react-icons/fa';
 import { MdFullscreen, MdOutlineReplay } from 'react-icons/md';
@@ -11,7 +11,7 @@ interface ControlsProps {
   videoReplay: React.MouseEventHandler<HTMLButtonElement>;
   handleTogglePlay: React.MouseEventHandler<HTMLButtonElement>;
   isPaused: boolean;
-  videoElement: HTMLVideoElement;
+  videoElement: HTMLVideoElement | null;
 }
 
 const Controls = ({
@@ -28,37 +28,37 @@ const Controls = ({
   const isReplayButton =
     currentDurationOfVideo === durationOfVideo && currentDurationOfVideo !== 0;
 
-  useEffect(() => {
-    // Add event listener for orientation change
-    window.addEventListener('resize', handleOrientationChange);
-    // window.screen.orientation.addEventListener("change", handleOrientationChange)
+  const fullScreenRef = useRef<HTMLButtonElement | null>(null);
 
-    // Clean up the event listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleOrientationChange);
-      // window.screen.orientation.removeEventListener("change", handleOrientationChange)
-    };
-  }, []);
-
-  const handleOrientationChange = () => {
-    // Check the current orientation
-    const currentOrientation = window.orientation;
-    if (currentOrientation === 0) {
-      console.log('Portrait');
-      // Handle portrait orientation
-    } else if (currentOrientation === 90 || currentOrientation === -90) {
-      console.log('Landscape');
-      // Handle landscape orientation
-      // console.log(!!videoRef.current?.requestFullscreen, 'permission')
-      // const documentElement = document.documentElement;
-      // const requestFullscreen = documentElement.requestFullscreen;
-      // const exitFullscreen = document.exitFullscreen;
-
-      // if(requestFullscreen) {
-      //   console.log('dddd');
+  const orientationChange = useCallback(() => {
+    if (screen.orientation.type.includes('landscape')) {
+      if (videoElement) {
+        videoElement.requestFullscreen({
+          navigationUI: 'auto',
+        });
+      }
+      // else if (elem?.mozRequestFullScreen) {
+      //   elem?.mozRequestFullScreen();
+      // } else if (elem?.webkitRequestFullscreen) {
+      //   elem?.webkitRequestFullscreen();
+      // } else if (elem.msRequestFullscreen) {
+      //   elem.msRequestFullscreen();
       // }
+    } else {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
     }
-  };
+  }, [videoElement]);
+
+  useEffect(() => {
+    // Listen for the window.orientationchange event
+    window.addEventListener('orientationchange', orientationChange);
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener('orientationchange', orientationChange);
+    };
+  }, [orientationChange]);
 
   const handleChangeVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMuted(false);
@@ -87,7 +87,9 @@ const Controls = ({
   const handleToggleFullScreen = () => {
     if (videoElement) {
       if (videoElement.requestFullscreen) {
-        videoElement.requestFullscreen();
+        videoElement.requestFullscreen({
+          navigationUI: 'auto',
+        });
       }
       // else if (videoElement.mozRequestFullScreen) { // For older versions of Firefox
       //   videoElement.mozRequestFullScreen();
@@ -143,6 +145,7 @@ const Controls = ({
         <button
           className={styles.fullScreenButton}
           onClick={handleToggleFullScreen}
+          ref={fullScreenRef}
         >
           <MdFullscreen color='white' size={24} />
         </button>
