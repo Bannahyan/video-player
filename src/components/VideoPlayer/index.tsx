@@ -66,7 +66,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     return () => {
       videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
     };
-  }, [src, videoElement]);
+  }, [handleLoadedMetadata, src, videoElement]);
 
   //handling fast forward/backward animation
   useEffect(() => {
@@ -243,19 +243,15 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         isPaused={isPaused}
       />
       <ForwardBackward
-        className={classNames(
-          styles.fastForward,
-          fastForwardClicked ? styles.visible : styles.hidden
-        )}
+        fastForwardClicked={fastForwardClicked}
+        backwardClicked={false}
         onDoubleClick={() => handleForwardBackward(true)}
         onTouchStart={() => handleForwardBackwardMobile(true)}
         forward
       />
       <ForwardBackward
-        className={classNames(
-          styles.fastBackward,
-          backwardClicked ? styles.visible : styles.hidden
-        )}
+        backwardClicked={backwardClicked}
+        fastForwardClicked={false}
         onDoubleClick={() => handleForwardBackward(false)}
         onTouchStart={() => handleForwardBackwardMobile(false)}
         forward={false}

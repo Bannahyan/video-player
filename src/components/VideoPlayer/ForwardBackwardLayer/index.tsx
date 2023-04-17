@@ -7,21 +7,26 @@ import styles from './styles.module.css';
 const inter = Inter({ subsets: ['latin'] });
 
 interface ForwardBackwardProps {
-  className: string;
   onDoubleClick: React.MouseEventHandler<HTMLDivElement>;
   onTouchStart: React.TouchEventHandler<HTMLDivElement>;
   forward: boolean;
+  backwardClicked: boolean;
+  fastForwardClicked: boolean;
 }
 
 const ForwardBackward = ({
-  className,
   onDoubleClick,
   onTouchStart,
   forward,
+  backwardClicked,
+  fastForwardClicked,
 }: ForwardBackwardProps) => {
   return (
     <div
-      className={className}
+      className={classNames(
+        forward ? styles.fastForward : styles.fastBackward,
+        fastForwardClicked || backwardClicked ? styles.visible : styles.hidden
+      )}
       onDoubleClick={onDoubleClick}
       onTouchStart={onTouchStart}
     >
