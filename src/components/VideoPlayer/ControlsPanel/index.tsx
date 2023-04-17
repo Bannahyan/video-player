@@ -17,6 +17,7 @@ interface DocumentElementWithFullscreen extends HTMLElement {
   msRequestFullscreen?: () => void;
   mozRequestFullScreen?: () => void;
   webkitRequestFullscreen?: () => void;
+  webkitEnterFullscreen?: () => void;
 }
 
 const Controls = ({
@@ -107,6 +108,8 @@ const Controls = ({
       } else if (element.webkitRequestFullscreen) {
         // For older versions of Chrome, Safari and Opera
         element.webkitRequestFullscreen();
+      } else if (element.webkitEnterFullscreen) {
+        element.webkitEnterFullscreen();
       }
     }
   };
