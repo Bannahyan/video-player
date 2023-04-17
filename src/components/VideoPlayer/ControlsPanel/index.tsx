@@ -27,8 +27,6 @@ const Controls = ({
   const [muted, setMuted] = useState(false);
   const fullScreenRef = useRef<HTMLButtonElement | null>(null);
 
-  console.log(durationOfVideo, 'durationOfVideodurationOfVideo');
-
   const isReplayButton = useMemo(() => {
     return (
       currentDurationOfVideo >= durationOfVideo && currentDurationOfVideo !== 0

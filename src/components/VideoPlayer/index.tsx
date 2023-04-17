@@ -122,24 +122,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     };
   }, [orientationChange]);
 
-  const handleVisibilityChange = useCallback(() => {
-    // Check if the document is visible
-    if (videoElement && !document.hidden) {
-      // Update the play button based on the current video state
-      setIsPaused(videoElement.paused);
-    }
-  }, [videoElement]);
-
-  useEffect(() => {
-    // Add event listener for visibilitychange event
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      // Cleanup: Remove event listener when component unmounts
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [handleVisibilityChange]);
-
   //handling play, pause and replay events
   const handleTogglePlay = () => {
     if (videoRef.current) {
