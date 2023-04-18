@@ -10,22 +10,20 @@ interface ForwardBackwardProps {
   onDoubleClick: React.MouseEventHandler<HTMLDivElement>;
   onTouchStart: React.TouchEventHandler<HTMLDivElement>;
   forward: boolean;
-  backwardClicked: boolean;
-  fastForwardClicked: boolean;
+  clicked: boolean;
 }
 
 const ForwardBackward = ({
   onDoubleClick,
   onTouchStart,
   forward,
-  backwardClicked,
-  fastForwardClicked,
+  clicked,
 }: ForwardBackwardProps) => {
   return (
     <div
       className={classNames(
         forward ? styles.fastForward : styles.fastBackward,
-        fastForwardClicked || backwardClicked ? styles.visible : styles.hidden
+        clicked ? styles.visible : styles.hidden
       )}
       onDoubleClick={onDoubleClick}
       onTouchStart={onTouchStart}
