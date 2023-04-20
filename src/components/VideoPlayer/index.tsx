@@ -121,17 +121,39 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     };
   }, [orientationChange]);
 
+  //Change play/pause icons on exit full screen for iOS devices
+  const handlePausePlayOnExit = useCallback(() => {
+    if (videoElement) {
+      setIsPaused(videoElement.paused);
+    }
+  }, [videoElement]);
+
+  useEffect(() => {
+    videoElement &&
+      videoElement.addEventListener(
+        'webkitendfullscreen',
+        handlePausePlayOnExit
+      );
+    return () => {
+      videoElement &&
+        videoElement.removeEventListener(
+          'webkitendfullscreen',
+          handlePausePlayOnExit
+        );
+    };
+  }, [videoElement, handlePausePlayOnExit]);
+
   //handling play, pause and replay events
   const handleTogglePlay = () => {
     if (videoRef.current) {
       if (videoRef.current.paused) {
         videoRef.current.play();
-        getDurationOfVideo();
         setIsPaused(false);
       } else {
         videoRef.current.pause();
         setIsPaused(true);
       }
+      getDurationOfVideo();
     }
   };
 
@@ -140,7 +162,10 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     const videoIntervalTime = setInterval(() => {
       if (videoRef.current) {
         setCurrentDurationOfVideo(videoRef.current.currentTime);
-        if (videoRef.current.currentTime >= durationOfVideo) {
+        if (
+          videoRef.current.currentTime >= durationOfVideo ||
+          videoRef.current.paused
+        ) {
           clearVideoInterval();
         }
       }
