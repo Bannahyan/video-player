@@ -26,7 +26,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [forwardClickedTime, setForwardClickedTime] = useState(0);
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const videoElement = videoRef.current;
 
   //setting the duration of the video in order to be able to scrub the video
   useEffect(() => {
@@ -35,37 +34,46 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   }, []);
 
-  const handleLoadedMetadata = useCallback(() => {
-    // Access the duration property on the video element
-    if (videoElement) {
-      const duration = videoElement.duration;
-      setDurationOfVideo(duration);
-    }
-  }, [videoElement]);
+  // const handleLoadedMetadata = useCallback(() => {
+  //   // Access the duration property on the video element
+  //   console.log('111');
+  //   if (videoRef.current) {
+  //     // alert(videoRef.current.duration);
+  //     const duration = videoRef.current.duration;
+  //     setDurationOfVideo(duration);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (!videoElement) return;
-    if (videoElement.canPlayType('application/vnd.apple.mpegurl')) {
-      videoElement.src = src; // This will run in safari, where HLS is supported natively
-    } else if (Hls.isSupported()) {
-      // This will run in all other modern browsers
-      const hls = new Hls();
-      hls.loadSource(src);
-      hls.attachMedia(videoElement);
-    } else {
-      console.error(
-        'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
-      );
-    }
+  // useEffect(() => {
+  //   if (!videoRef.current) return;
+  //   if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+  //     videoRef.current.src = src; // This will run in safari, where HLS is supported natively
+  //   } else if (Hls.isSupported()) {
+  //     // This will run in all other modern browsers
+  //     const hls = new Hls();
+  //     hls.loadSource(src);
+  //     hls.attachMedia(videoRef.current);
+  //   } else {
+  //     console.error(
+  //       'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
+  //     );
+  //   }
 
-    // Add loadedmetadata event listener
-    videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
+  //   // Add loadedmetadata event listener
+  //   videoRef.current.addEventListener('canplay', handleLoadedMetadata);
+  //   videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
 
-    // Cleanup function to remove event listener on unmount or when src changes
-    return () => {
-      videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-    };
-  }, [handleLoadedMetadata, src, videoElement]);
+  //   // Cleanup function to remove event listener on unmount or when src changes
+  //   return () => {
+  //     if (videoRef.current) {
+  //       videoRef.current.removeEventListener(
+  //         'loadedmetadata',
+  //         handleLoadedMetadata
+  //       );
+  //       videoRef.current.removeEventListener('canplay', handleLoadedMetadata);
+  //     }
+  //   };
+  // }, [handleLoadedMetadata, src]);
 
   //handling fast forward/backward animation
   useEffect(() => {
@@ -105,13 +113,13 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       screen.orientation.type.includes('landscape') &&
       !document.fullscreenElement
     ) {
-      handleToggleFullScreen(videoElement);
+      handleToggleFullScreen(videoRef.current);
     } else {
       if (document.fullscreenElement) {
         document.exitFullscreen();
       }
     }
-  }, [videoElement]);
+  }, []);
 
   // Listen for the window.orientationchange event
   useEffect(() => {
@@ -123,35 +131,25 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   //Change play/pause icons on exit full screen for iOS devices
   const handlePausePlayOnExit = useCallback(() => {
-    if (videoElement) {
-      setIsPaused(videoElement.paused);
+    if (videoRef.current) {
+      setIsPaused(videoRef.current.paused);
     }
-  }, [videoElement]);
+  }, []);
 
   useEffect(() => {
-    videoElement &&
-      videoElement.addEventListener(
+    videoRef.current &&
+      videoRef.current.addEventListener(
         'webkitendfullscreen',
         handlePausePlayOnExit
       );
     return () => {
-      videoElement &&
-        videoElement.removeEventListener(
+      videoRef.current &&
+        videoRef.current.removeEventListener(
           'webkitendfullscreen',
           handlePausePlayOnExit
         );
     };
-  }, [videoElement, handlePausePlayOnExit]);
-
-  useEffect(() => {
-    videoElement &&
-      videoElement.addEventListener('dragend', handlePausePlayOnExit);
-
-    return () => {
-      videoElement &&
-        videoElement.removeEventListener('dragend', handlePausePlayOnExit);
-    };
-  }, [handlePausePlayOnExit, videoElement]);
+  }, [handlePausePlayOnExit]);
 
   //handling play, pause and replay events
   const handleTogglePlay = () => {
@@ -166,7 +164,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       getDurationOfVideo();
     }
   };
-
   //changing scrubber value every 0.1 second
   const getDurationOfVideo = () => {
     const videoIntervalTime = setInterval(() => {
@@ -189,8 +186,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //change current duration of the video during scrubbing
   const videoDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (videoRef.current) {
-      setCurrentDurationOfVideo(parseFloat(e.target.value));
-      videoRef.current.currentTime = parseFloat(e.target.value);
+      setCurrentDurationOfVideo(Number(e.target.value));
+      videoRef.current.currentTime = Number(e.target.value);
     }
   };
 
@@ -269,7 +266,9 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         }}
         playsInline
         webkit-playsinline='true'
-      ></video>
+      >
+        <source src='./assets/sunset.mp4'></source>
+      </video>
       <PlayPause
         areaClicked={areaClicked}
         setAreaClicked={setAreaClicked}
@@ -294,7 +293,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         videoDuration={videoDuration}
         handleTogglePlay={handleTogglePlay}
         isPaused={isPaused}
-        videoElement={videoElement}
+        videoElement={videoRef.current}
         handleToggleFullScreen={handleToggleFullScreen}
       />
     </div>
