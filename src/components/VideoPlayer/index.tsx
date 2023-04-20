@@ -269,6 +269,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       >
         <source src='./assets/sunset.mp4'></source>
       </video>
+      <div style={{ color: 'green' }}>{durationOfVideo} dur</div>
+      <div style={{ color: 'green' }}>{currentDurationOfVideo} curdur</div>
       <PlayPause
         areaClicked={areaClicked}
         setAreaClicked={setAreaClicked}
