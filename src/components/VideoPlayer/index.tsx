@@ -286,8 +286,11 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       />
       <ForwardBackward
         clicked={fastForwardClicked}
-        onDoubleClick={() => handleForwardBackward(true)}
-        onTouchStart={() => handleForwardBackwardMobile(true)}
+        onDoubleClick={e => handleForwardBackward(true)}
+        onTouchStart={e => {
+          e.preventDefault();
+          handleForwardBackwardMobile(true);
+        }}
         forward
       />
       <ForwardBackward
