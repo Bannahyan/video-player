@@ -186,8 +186,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //change current duration of the video during scrubbing
   const videoDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (videoRef.current) {
-      setCurrentDurationOfVideo(Number(e.target.value));
-      videoRef.current.currentTime = Number(e.target.value);
+      setCurrentDurationOfVideo(parseFloat(e.target.value));
+      videoRef.current.currentTime = parseFloat(e.target.value);
     }
   };
 
