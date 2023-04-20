@@ -143,6 +143,16 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     };
   }, [videoElement, handlePausePlayOnExit]);
 
+  useEffect(() => {
+    videoElement &&
+      videoElement.addEventListener('dragend', handlePausePlayOnExit);
+
+    return () => {
+      videoElement &&
+        videoElement.removeEventListener('dragend', handlePausePlayOnExit);
+    };
+  }, [handlePausePlayOnExit, videoElement]);
+
   //handling play, pause and replay events
   const handleTogglePlay = () => {
     if (videoRef.current) {
