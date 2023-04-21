@@ -27,96 +27,11 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  // const handleSetDurationOfVideo = useCallback(() => {
-  //   if (videoRef.current && !durationOfVideo) {
-  //     setDurationOfVideo(videoRef.current.duration);
-  //   }
-  // }, [durationOfVideo]);
-
   useEffect(() => {
     if (videoRef.current && !durationOfVideo) {
       setDurationOfVideo(videoRef.current.duration);
     }
   }, [durationOfVideo]);
-
-  //setting the duration of the video in order to be able to scrub the video
-  // useEffect(() => {
-  //   if (videoRef.current && !durationOfVideo) {
-  //     videoRef.current.addEventListener(
-  //       'loadedmetadata',
-  //       handleSetDurationOfVideo
-  //     );
-  //   }
-  // }, [durationOfVideo, handleSetDurationOfVideo]);
-
-  // const handleLoadedMetadata = useCallback(() => {
-  //   // Access the duration property on the video element
-  //   if (videoRef.current) {
-  //     const duration = videoRef.current.duration;
-  //     setDurationOfVideo(duration);
-  //   }
-  // }, []);
-
-  // console.log(durationOfVideo, 'dur');
-
-  // useEffect(() => {
-  //   if (!videoRef.current) return;
-  //   if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
-  //     videoRef.current.src = src; // This will run in safari, where HLS is supported natively
-  //   } else if (Hls.isSupported()) {
-  //     // This will run in all other modern browsers
-  //     const hls = new Hls();
-  //     hls.loadSource(src);
-  //     hls.attachMedia(videoRef.current);
-  //     hls.on(Hls.Events.MANIFEST_PARSED, function () {
-  //       setIsStreamLoaded(true);
-  //     });
-  //   } else {
-  //     console.error(
-  //       'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
-  //     );
-  //   }
-  // }, [src]);
-
-  // useEffect(() => {
-  //   if (isStreamLoaded && videoRef.current) {
-  //     videoRef.current.addEventListener(
-  //       'loadedmetadata',
-  //       handleSetDurationOfVideo
-  //     );
-  //   }
-  // }, [handleSetDurationOfVideo, isStreamLoaded]);
-
-  // useEffect(() => {
-  //   if (!videoRef.current) return;
-  //   if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
-  //     videoRef.current.src = src; // This will run in safari, where HLS is supported natively
-  //   } else if (Hls.isSupported()) {
-  //     // This will run in all other modern browsers
-  //     const hls = new Hls();
-  //     hls.loadSource(src);
-  //     hls.attachMedia(videoRef.current);
-  //   } else {
-  //     console.error(
-  //       'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
-  //     );
-  //   }
-
-  //   // Add loadedmetadata event listener
-  //   // videoRef.current.addEventListener('canplay', handleLoadedMetadata);
-  //   // videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
-
-  //   // Cleanup function to remove event listener on unmount or when src changes
-  //   // return () => {
-  //   //   if (videoRef.current) {
-  //   //     videoRef.current.removeEventListener(
-  //   //       'loadedmetadata',
-  //   //       handleLoadedMetadata
-  //   //     );
-  //   //     videoRef.current.removeEventListener('canplay', handleLoadedMetadata);
-  //   //   }
-  //   // };
-  // }, [src]);
 
   //handling fast forward/backward animation
   useEffect(() => {
