@@ -290,7 +290,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
           handleForwardBackward(true);
         }}
         onTouchStart={e => {
-          e.preventDefault();
+          // e.preventDefault();
           handleForwardBackwardMobile(true);
         }}
         forward
