@@ -68,7 +68,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
     if (screen.orientation.type.includes('landscape')) {
-      alert('sddd');
       handleToggleFullScreen(videoRef.current);
     }
     // if (
