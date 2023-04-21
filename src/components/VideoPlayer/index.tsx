@@ -113,8 +113,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   //Change play/pause icons on exit full screen for iOS devices
   const handlePausePlayOnExit = useCallback(() => {
-    alert('222');
     if (videoRef.current) {
+      alert('222');
       setIsPaused(videoRef.current.paused);
     }
   }, []);
