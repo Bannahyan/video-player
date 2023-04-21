@@ -25,15 +25,14 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [areaClicked, setAreaClicked] = useState(false);
   const [forwardClickedTime, setForwardClickedTime] = useState(0);
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   //setting the duration of the video in order to be able to scrub the video
   useEffect(() => {
-    if (videoRef.current && !durationOfVideo && isVideoLoaded) {
+    if (videoRef.current && !durationOfVideo) {
       setDurationOfVideo(videoRef.current.duration);
     }
-  }, [durationOfVideo, isVideoLoaded]);
+  }, [durationOfVideo]);
 
   // const handleLoadedMetadata = useCallback(() => {
   //   // Access the duration property on the video element
@@ -258,10 +257,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   };
 
   const onCanPlay = () => {
-    if (isVideoLoaded) {
-      videoRef.current && setDurationOfVideo(videoRef.current?.duration);
-    } else {
-      setIsVideoLoaded(true);
+    if (videoRef.current && !durationOfVideo) {
+      setDurationOfVideo(videoRef.current?.duration);
     }
   };
 
