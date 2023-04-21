@@ -74,7 +74,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
     if (screen.orientation.type.includes('landscape')) {
-      alert('ddd');
       handleToggleFullScreen(videoRef.current);
     }
     // else {
@@ -94,12 +93,10 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   const handleExitFullScreen = (doc: DocumentWithFullscreen) => {
     if (doc.exitFullscreen) {
-      alert('esss');
       doc.exitFullscreen();
     } else if (doc.msExitFullscreen) {
       doc.msExitFullscreen();
     } else if (doc.webkitExitFullscreen) {
-      alert('eeee');
       doc.webkitExitFullscreen();
     } else if (doc.mozCancelFullScreen) {
       doc.mozCancelFullScreen();
@@ -114,12 +111,19 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     };
   }, [orientationChange]);
 
+  const webkitOrientationChange = useCallback(() => {
+    alert(window.orientation);
+  }, []);
+
   useEffect(() => {
-    window.addEventListener('webkitfullscreenchange', orientationChange);
+    window.addEventListener('webkitfullscreenchange', webkitOrientationChange);
     return () => {
-      window.removeEventListener('webkitfullscreenchange', orientationChange);
+      window.removeEventListener(
+        'webkitfullscreenchange',
+        webkitOrientationChange
+      );
     };
-  }, [orientationChange]);
+  }, [webkitOrientationChange]);
 
   //Change play/pause icons on exit full screen for iOS devices
   const handlePausePlayOnExit = useCallback(() => {
@@ -217,13 +221,11 @@ const VideoPlayer = ({ src }: PlayerProps) => {
             );
           });
       } else if (element.mozRequestFullScreen) {
-        alert('mozRequestFullScreen');
         element.mozRequestFullScreen(); // For older versions of Firefox
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
       } else if (element.webkitRequestFullscreen) {
-        alert('webkitRequestFullscreen');
         element.webkitRequestFullscreen(); // For older versions of Chrome, Safari and Opera
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
