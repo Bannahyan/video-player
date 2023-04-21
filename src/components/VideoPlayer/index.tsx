@@ -67,10 +67,10 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
-    //   if (screen.orientation.type.includes('landscape')) {
-    //     alert('sddd');
-    //     // videoRef.current?.requestFullscreen();
-    //   }
+    if (screen.orientation.type.includes('landscape')) {
+      alert('sddd');
+      handleToggleFullScreen(videoRef.current);
+    }
     // if (
     //   screen.orientation.type.includes('landscape') &&
     //   !document.fullscreenElement
@@ -177,7 +177,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   ) => {
     if (element) {
       if (element.requestFullscreen) {
-        alert('requestFullscreen');
         element
           .requestFullscreen({
             navigationUI: 'auto',
@@ -200,7 +199,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
       } else if (element.webkitEnterFullscreen) {
-        alert('webkitEnterFullscreen');
         element.webkitEnterFullscreen(); //For iOS devices
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
