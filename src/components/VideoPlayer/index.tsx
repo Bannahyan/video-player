@@ -89,18 +89,17 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       doc.webkitFullscreenElement ||
       doc.mozFullScreenElement ||
       doc.msFullscreenElement;
-    if (doc.exitFullscreen) {
+    if (doc.webkitExitFullscreen) {
       alert('1');
-      doc.exitFullscreen();
+      doc.webkitExitFullscreen();
     } else if (doc.msExitFullscreen) {
       alert(2);
       doc.msExitFullscreen();
-    } else if (doc.webkitExitFullscreen) {
-      alert(3);
-      doc.webkitExitFullscreen();
     } else if (doc.mozCancelFullScreen) {
       alert(4);
       doc.mozCancelFullScreen();
+    } else if (doc.exitFullscreen) {
+      doc.exitFullscreen();
     }
   };
 
