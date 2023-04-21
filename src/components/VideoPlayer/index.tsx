@@ -28,11 +28,11 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   //setting the duration of the video in order to be able to scrub the video
-  // useEffect(() => {
-  //   if (videoRef.current) {
-  //     setDurationOfVideo(videoRef.current.duration);
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (videoRef.current && !durationOfVideo) {
+      setDurationOfVideo(videoRef.current.duration);
+    }
+  }, [durationOfVideo]);
 
   // const handleLoadedMetadata = useCallback(() => {
   //   // Access the duration property on the video element
