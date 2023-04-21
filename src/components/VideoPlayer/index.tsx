@@ -74,10 +74,12 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
     if (screen.orientation.type.includes('landscape')) {
+      alert('ddd');
       handleToggleFullScreen(videoRef.current);
-    } else {
-      handleExitFullScreen(document);
     }
+    // else {
+    //   handleExitFullScreen(document);
+    // }
     // if (
     //   screen.orientation.type.includes('landscape') &&
     //   !document.fullscreenElement
@@ -109,6 +111,13 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     window.addEventListener('orientationchange', orientationChange);
     return () => {
       window.removeEventListener('orientationchange', orientationChange);
+    };
+  }, [orientationChange]);
+
+  useEffect(() => {
+    window.addEventListener('webkitfullscreenchange', orientationChange);
+    return () => {
+      window.removeEventListener('webkitfullscreenchange', orientationChange);
     };
   }, [orientationChange]);
 
