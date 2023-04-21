@@ -74,6 +74,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
     if (screen.orientation.type.includes('landscape')) {
+      alert('eeee');
       handleToggleFullScreen(videoRef.current);
     }
     // else {
@@ -110,20 +111,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       window.removeEventListener('orientationchange', orientationChange);
     };
   }, [orientationChange]);
-
-  const webkitOrientationChange = useCallback(() => {
-    alert(window.orientation);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('webkitfullscreenchange', webkitOrientationChange);
-    return () => {
-      window.removeEventListener(
-        'webkitfullscreenchange',
-        webkitOrientationChange
-      );
-    };
-  }, [webkitOrientationChange]);
 
   //Change play/pause icons on exit full screen for iOS devices
   const handlePausePlayOnExit = useCallback(() => {
