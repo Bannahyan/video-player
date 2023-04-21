@@ -23,16 +23,21 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [fastForwardClicked, setFastForwardClicked] = useState(false);
   const [backwardClicked, setBackwardClicked] = useState(false);
   const [areaClicked, setAreaClicked] = useState(false);
-  const [isStreamLoaded, setIsStreamLoaded] = useState(false);
   const [forwardClickedTime, setForwardClickedTime] = useState(0);
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const handleSetDurationOfVideo = useCallback(() => {
-    if (videoRef.current) {
+  // const handleSetDurationOfVideo = useCallback(() => {
+  //   if (videoRef.current && !durationOfVideo) {
+  //     setDurationOfVideo(videoRef.current.duration);
+  //   }
+  // }, [durationOfVideo]);
+
+  useEffect(() => {
+    if (videoRef.current && !durationOfVideo) {
       setDurationOfVideo(videoRef.current.duration);
     }
-  }, []);
+  }, [durationOfVideo]);
 
   //setting the duration of the video in order to be able to scrub the video
   // useEffect(() => {
@@ -52,35 +57,35 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //   }
   // }, []);
 
-  console.log(durationOfVideo, 'dur');
+  // console.log(durationOfVideo, 'dur');
 
-  useEffect(() => {
-    if (!videoRef.current) return;
-    if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = src; // This will run in safari, where HLS is supported natively
-    } else if (Hls.isSupported()) {
-      // This will run in all other modern browsers
-      const hls = new Hls();
-      hls.loadSource(src);
-      hls.attachMedia(videoRef.current);
-      hls.on(Hls.Events.MANIFEST_PARSED, function () {
-        setIsStreamLoaded(true);
-      });
-    } else {
-      console.error(
-        'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
-      );
-    }
-  }, [src]);
+  // useEffect(() => {
+  //   if (!videoRef.current) return;
+  //   if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+  //     videoRef.current.src = src; // This will run in safari, where HLS is supported natively
+  //   } else if (Hls.isSupported()) {
+  //     // This will run in all other modern browsers
+  //     const hls = new Hls();
+  //     hls.loadSource(src);
+  //     hls.attachMedia(videoRef.current);
+  //     hls.on(Hls.Events.MANIFEST_PARSED, function () {
+  //       setIsStreamLoaded(true);
+  //     });
+  //   } else {
+  //     console.error(
+  //       'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
+  //     );
+  //   }
+  // }, [src]);
 
-  useEffect(() => {
-    if (isStreamLoaded && videoRef.current) {
-      videoRef.current.addEventListener(
-        'loadedmetadata',
-        handleSetDurationOfVideo
-      );
-    }
-  }, [handleSetDurationOfVideo, isStreamLoaded]);
+  // useEffect(() => {
+  //   if (isStreamLoaded && videoRef.current) {
+  //     videoRef.current.addEventListener(
+  //       'loadedmetadata',
+  //       handleSetDurationOfVideo
+  //     );
+  //   }
+  // }, [handleSetDurationOfVideo, isStreamLoaded]);
 
   // useEffect(() => {
   //   if (!videoRef.current) return;
@@ -301,10 +306,10 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         }}
         playsInline
         webkit-playsinline='true'
-        // onLoadedMetadata={onLoadedMetadata}
+        onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
       >
-        {/* <source src='./assets/sunset.mp4'></source> */}
+        <source src='./assets/sunset.mp4'></source>
       </video>
       <div style={{ color: 'green' }}>{durationOfVideo} dur</div>
       <div style={{ color: 'green' }}>{currentDurationOfVideo} curdur</div>
