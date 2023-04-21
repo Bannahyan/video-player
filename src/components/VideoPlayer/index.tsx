@@ -103,6 +103,17 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   };
 
+  useEffect(() => {
+    window.addEventListener('webkitendfullscreen', () => {
+      alert('eee');
+    });
+    return () => {
+      window.removeEventListener('webkitendfullscreen', () => {
+        alert('eee');
+      });
+    };
+  }, [orientationChange]);
+
   // Listen for the window.orientationchange event
   useEffect(() => {
     window.addEventListener('orientationchange', orientationChange);
@@ -110,17 +121,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       window.removeEventListener('orientationchange', orientationChange);
     };
   }, [orientationChange]);
-
-  const dragAndDrdop = () => {
-    alert('aaa');
-  };
-
-  useEffect(() => {
-    window.addEventListener('pointerlockchange', dragAndDrdop);
-    return () => {
-      window.removeEventListener('pointerlockchange', dragAndDrdop);
-    };
-  }, [dragAndDrdop]);
 
   //Change play/pause icons on exit full screen for iOS devices
   const handlePausePlayOnExit = useCallback(() => {
