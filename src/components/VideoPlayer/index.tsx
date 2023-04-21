@@ -23,16 +23,26 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [fastForwardClicked, setFastForwardClicked] = useState(false);
   const [backwardClicked, setBackwardClicked] = useState(false);
   const [areaClicked, setAreaClicked] = useState(false);
+  const [isStreamLoaded, setIsStreamLoaded] = useState(false);
   const [forwardClickedTime, setForwardClickedTime] = useState(0);
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  //setting the duration of the video in order to be able to scrub the video
-  useEffect(() => {
-    if (videoRef.current && !durationOfVideo) {
+  const handleSetDurationOfVideo = useCallback(() => {
+    if (videoRef.current) {
       setDurationOfVideo(videoRef.current.duration);
     }
-  }, [durationOfVideo]);
+  }, []);
+
+  //setting the duration of the video in order to be able to scrub the video
+  // useEffect(() => {
+  //   if (videoRef.current && !durationOfVideo) {
+  //     videoRef.current.addEventListener(
+  //       'loadedmetadata',
+  //       handleSetDurationOfVideo
+  //     );
+  //   }
+  // }, [durationOfVideo, handleSetDurationOfVideo]);
 
   // const handleLoadedMetadata = useCallback(() => {
   //   // Access the duration property on the video element
@@ -41,6 +51,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //     setDurationOfVideo(duration);
   //   }
   // }, []);
+
+  console.log(durationOfVideo, 'dur');
 
   useEffect(() => {
     if (!videoRef.current) return;
@@ -51,12 +63,24 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       const hls = new Hls();
       hls.loadSource(src);
       hls.attachMedia(videoRef.current);
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        setIsStreamLoaded(true);
+      });
     } else {
       console.error(
         'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
       );
     }
   }, [src]);
+
+  useEffect(() => {
+    if (isStreamLoaded && videoRef.current) {
+      videoRef.current.addEventListener(
+        'loadedmetadata',
+        handleSetDurationOfVideo
+      );
+    }
+  }, [handleSetDurationOfVideo, isStreamLoaded]);
 
   // useEffect(() => {
   //   if (!videoRef.current) return;
@@ -277,7 +301,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         }}
         playsInline
         webkit-playsinline='true'
-        onLoadedMetadata={onLoadedMetadata}
+        // onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
       >
         {/* <source src='./assets/sunset.mp4'></source> */}
