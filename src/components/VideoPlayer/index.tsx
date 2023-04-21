@@ -42,36 +42,36 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //   }
   // }, []);
 
-  useEffect(() => {
-    if (!videoRef.current) return;
-    if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
-      videoRef.current.src = src; // This will run in safari, where HLS is supported natively
-    } else if (Hls.isSupported()) {
-      // This will run in all other modern browsers
-      const hls = new Hls();
-      hls.loadSource(src);
-      hls.attachMedia(videoRef.current);
-    } else {
-      console.error(
-        'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
-      );
-    }
+  // useEffect(() => {
+  //   if (!videoRef.current) return;
+  //   if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+  //     videoRef.current.src = src; // This will run in safari, where HLS is supported natively
+  //   } else if (Hls.isSupported()) {
+  //     // This will run in all other modern browsers
+  //     const hls = new Hls();
+  //     hls.loadSource(src);
+  //     hls.attachMedia(videoRef.current);
+  //   } else {
+  //     console.error(
+  //       'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
+  //     );
+  //   }
 
-    // Add loadedmetadata event listener
-    // videoRef.current.addEventListener('canplay', handleLoadedMetadata);
-    // videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
+  //   // Add loadedmetadata event listener
+  //   // videoRef.current.addEventListener('canplay', handleLoadedMetadata);
+  //   // videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
 
-    // Cleanup function to remove event listener on unmount or when src changes
-    // return () => {
-    //   if (videoRef.current) {
-    //     videoRef.current.removeEventListener(
-    //       'loadedmetadata',
-    //       handleLoadedMetadata
-    //     );
-    //     videoRef.current.removeEventListener('canplay', handleLoadedMetadata);
-    //   }
-    // };
-  }, [src]);
+  //   // Cleanup function to remove event listener on unmount or when src changes
+  //   // return () => {
+  //   //   if (videoRef.current) {
+  //   //     videoRef.current.removeEventListener(
+  //   //       'loadedmetadata',
+  //   //       handleLoadedMetadata
+  //   //     );
+  //   //     videoRef.current.removeEventListener('canplay', handleLoadedMetadata);
+  //   //   }
+  //   // };
+  // }, [src]);
 
   //handling fast forward/backward animation
   useEffect(() => {
@@ -260,7 +260,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
       >
-        {/* <source src='./assets/sunset.mp4'></source> */}
+        <source src='./assets/sunset.mp4'></source>
       </video>
       <div style={{ color: 'green' }}>{durationOfVideo} dur</div>
       <div style={{ color: 'green' }}>{currentDurationOfVideo} curdur</div>
