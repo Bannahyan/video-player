@@ -29,6 +29,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   useEffect(() => {
     if (videoRef.current && !durationOfVideo) {
+      alert('useeffect');
       setDurationOfVideo(videoRef.current.duration);
     }
   }, [durationOfVideo]);
@@ -207,6 +208,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   const onLoadedMetadata = () => {
     if (videoRef.current && !durationOfVideo) {
+      alert('loadedmetadata');
       setDurationOfVideo(videoRef.current?.duration);
     }
   };
