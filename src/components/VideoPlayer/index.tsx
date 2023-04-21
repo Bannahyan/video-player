@@ -243,7 +243,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   };
 
-  const onCanPlay = () => {
+  const onLoadedMetadata = () => {
     if (videoRef.current && !durationOfVideo) {
       setDurationOfVideo(videoRef.current?.duration);
     }
@@ -259,7 +259,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         }}
         playsInline
         webkit-playsinline='true'
-        onLoadedMetadata={onCanPlay}
+        onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
       >
         <source src='./assets/sunset.mp4'></source>
