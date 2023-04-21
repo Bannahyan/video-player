@@ -27,7 +27,7 @@ const ForwardBackward = ({
       )}
       onDoubleClick={onDoubleClick}
       onTouchStart={onTouchStart}
-      // onTouchEnd={e => e.preventDefault()}
+      onTouchEnd={e => e.preventDefault()}
     >
       {!forward && <MdFastRewind color='white' size={24} />}
       <p
