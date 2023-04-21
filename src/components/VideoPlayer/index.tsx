@@ -161,7 +161,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         videoRef.current.pause();
         setIsPaused(true);
       }
-      getDurationOfVideo();
+      // getDurationOfVideo();
     }
   };
   //changing scrubber value every 0.1 second
@@ -273,6 +273,10 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         playsInline
         webkit-playsinline='true'
         onLoadedMetadata={onCanPlay}
+        onTimeUpdate={() =>
+          videoRef.current &&
+          setCurrentDurationOfVideo(videoRef.current?.currentTime)
+        }
       >
         <source src='./assets/sunset.mp4'></source>
       </video>
