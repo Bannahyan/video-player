@@ -27,11 +27,11 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  // useEffect(() => {
-  //   if (videoRef.current && !durationOfVideo) {
-  //     setDurationOfVideo(videoRef.current.duration);
-  //   }
-  // }, [durationOfVideo]);
+  useEffect(() => {
+    if (videoRef.current && !durationOfVideo) {
+      setDurationOfVideo(videoRef.current.duration);
+    }
+  }, [durationOfVideo]);
 
   //handling fast forward/backward animation
   useEffect(() => {
@@ -222,6 +222,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         playsInline
         webkit-playsinline='true'
         onLoadedMetadata={onLoadedMetadata}
+        preload='auto'
         onTimeUpdate={handleTimeUpdate}
       >
         <source src='./assets/sunset.mp4'></source>
