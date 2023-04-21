@@ -177,6 +177,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   ) => {
     if (element) {
       if (element.requestFullscreen) {
+        alert('requestFullscreen');
         element
           .requestFullscreen({
             navigationUI: 'auto',
@@ -187,16 +188,19 @@ const VideoPlayer = ({ src }: PlayerProps) => {
             );
           });
       } else if (element.mozRequestFullScreen) {
+        alert('mozRequestFullScreen');
         element.mozRequestFullScreen(); // For older versions of Firefox
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
       } else if (element.webkitRequestFullscreen) {
+        alert('webkitRequestFullscreen');
         element.webkitRequestFullscreen(); // For older versions of Chrome, Safari and Opera
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
       } else if (element.webkitEnterFullscreen) {
+        alert('webkitEnterFullscreen');
         element.webkitEnterFullscreen(); //For iOS devices
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
@@ -222,7 +226,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         playsInline
         webkit-playsinline='true'
         onLoadedMetadata={onLoadedMetadata}
-        preload='auto'
         onTimeUpdate={handleTimeUpdate}
       >
         <source src='./assets/sunset.mp4'></source>
