@@ -84,7 +84,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   }, []);
 
   const handleExitFullScreen = (doc: DocumentWithFullscreen) => {
-    alert('www');
     const fullscreenElement =
       doc.fullscreenElement ||
       doc.webkitFullscreenElement ||
@@ -111,6 +110,17 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       window.removeEventListener('orientationchange', orientationChange);
     };
   }, [orientationChange]);
+
+  const dragAndDrdop = () => {
+    alert('aaa');
+  };
+
+  useEffect(() => {
+    window.addEventListener('pointerlockchange', dragAndDrdop);
+    return () => {
+      window.removeEventListener('pointerlockchange', dragAndDrdop);
+    };
+  }, [dragAndDrdop]);
 
   //Change play/pause icons on exit full screen for iOS devices
   const handlePausePlayOnExit = useCallback(() => {
