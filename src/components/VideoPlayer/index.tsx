@@ -16,6 +16,12 @@ interface DocumentElementWithFullscreen extends HTMLElement {
   webkitEnterFullscreen?: () => void;
 }
 
+interface DocumentWithFullscreen extends HTMLDocument {
+  msExitFullscreen?: () => void;
+  mozCancelFullScreen?: () => void;
+  webkitExitFullscreen?: () => void;
+}
+
 const VideoPlayer = ({ src }: PlayerProps) => {
   const [durationOfVideo, setDurationOfVideo] = useState(0);
   const [currentDurationOfVideo, setCurrentDurationOfVideo] = useState(0);
@@ -69,6 +75,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const orientationChange = useCallback(() => {
     if (screen.orientation.type.includes('landscape')) {
       handleToggleFullScreen(videoRef.current);
+    } else {
+      handleExitFullScreen(document);
     }
     // if (
     //   screen.orientation.type.includes('landscape') &&
@@ -81,6 +89,18 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     //   }
     // }
   }, []);
+
+  const handleExitFullScreen = (doc: DocumentWithFullscreen) => {
+    if (doc.exitFullscreen) {
+      doc.exitFullscreen();
+    } else if (doc.msExitFullscreen) {
+      doc.msExitFullscreen();
+    } else if (doc.webkitExitFullscreen) {
+      doc.webkitExitFullscreen();
+    } else if (doc.mozCancelFullScreen) {
+      doc.mozCancelFullScreen();
+    }
+  };
 
   // Listen for the window.orientationchange event
   useEffect(() => {
