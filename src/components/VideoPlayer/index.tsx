@@ -257,6 +257,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   };
 
   const onCanPlay = () => {
+    alert('eee');
     if (videoRef.current && !durationOfVideo) {
       setDurationOfVideo(videoRef.current?.duration);
     }
