@@ -27,12 +27,11 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  useEffect(() => {
-    if (videoRef.current && !durationOfVideo) {
-      alert('useeffect');
-      setDurationOfVideo(videoRef.current.duration);
-    }
-  }, [durationOfVideo]);
+  // useEffect(() => {
+  //   if (videoRef.current && !durationOfVideo) {
+  //     setDurationOfVideo(videoRef.current.duration);
+  //   }
+  // }, [durationOfVideo]);
 
   //handling fast forward/backward animation
   useEffect(() => {
@@ -208,7 +207,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   const onLoadedMetadata = () => {
     if (videoRef.current && !durationOfVideo) {
-      alert('loadedmetadata');
       setDurationOfVideo(videoRef.current?.duration);
     }
   };
