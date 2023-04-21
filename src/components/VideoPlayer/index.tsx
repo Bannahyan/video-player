@@ -42,6 +42,22 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //   }
   // }, []);
 
+  useEffect(() => {
+    if (!videoRef.current) return;
+    if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
+      videoRef.current.src = src; // This will run in safari, where HLS is supported natively
+    } else if (Hls.isSupported()) {
+      // This will run in all other modern browsers
+      const hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(videoRef.current);
+    } else {
+      console.error(
+        'This is an old browser that does not support MSE https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API'
+      );
+    }
+  }, [src]);
+
   // useEffect(() => {
   //   if (!videoRef.current) return;
   //   if (videoRef.current.canPlayType('application/vnd.apple.mpegurl')) {
@@ -107,10 +123,10 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
-    if (screen.orientation.type.includes('landscape')) {
-      alert('sddd');
-      // videoRef.current?.requestFullscreen();
-    }
+    //   if (screen.orientation.type.includes('landscape')) {
+    //     alert('sddd');
+    //     // videoRef.current?.requestFullscreen();
+    //   }
     // if (
     //   screen.orientation.type.includes('landscape') &&
     //   !document.fullscreenElement
@@ -264,7 +280,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
       >
-        <source src='./assets/sunset.mp4'></source>
+        {/* <source src='./assets/sunset.mp4'></source> */}
       </video>
       <div style={{ color: 'green' }}>{durationOfVideo} dur</div>
       <div style={{ color: 'green' }}>{currentDurationOfVideo} curdur</div>
