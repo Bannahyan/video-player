@@ -20,6 +20,9 @@ interface DocumentWithFullscreen extends HTMLDocument {
   msExitFullscreen?: () => void;
   mozCancelFullScreen?: () => void;
   webkitExitFullscreen?: () => void;
+  webkitFullscreenElement?: Element;
+  mozFullScreenElement?: Element;
+  msFullscreenElement?: Element;
 }
 
 const VideoPlayer = ({ src }: PlayerProps) => {
@@ -74,8 +77,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
     if (window.orientation === 0 || window.orientation === 180) {
-      // handleExitFullScreen(document);
-      alert('portrait');
+      handleExitFullScreen(document);
     } else if (
       window.orientation === 90 ||
       window.orientation === -90
@@ -97,15 +99,23 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   }, []);
 
   const handleExitFullScreen = (doc: DocumentWithFullscreen) => {
-    if (doc.exitFullscreen) {
-      doc.exitFullscreen();
-    } else if (doc.msExitFullscreen) {
-      doc.msExitFullscreen();
-    } else if (doc.webkitExitFullscreen) {
-      doc.webkitExitFullscreen();
-    } else if (doc.mozCancelFullScreen) {
-      doc.mozCancelFullScreen();
+    const fullscreenElement =
+      doc.fullscreenElement ||
+      doc.webkitFullscreenElement ||
+      doc.mozFullScreenElement ||
+      doc.msFullscreenElement;
+    if (fullscreenElement) {
+      alert('rrrr');
     }
+    // if (doc.exitFullscreen) {
+    //   doc.exitFullscreen();
+    // } else if (doc.msExitFullscreen) {
+    //   doc.msExitFullscreen();
+    // } else if (doc.webkitExitFullscreen) {
+    //   doc.webkitExitFullscreen();
+    // } else if (doc.mozCancelFullScreen) {
+    //   doc.mozCancelFullScreen();
+    // }
   };
 
   // Listen for the window.orientationchange event
