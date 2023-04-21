@@ -83,6 +83,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       window.orientation === 0 ||
       screen.orientation.type.includes('portrait')
     ) {
+      alert('000');
       handleExitFullScreen(document);
     }
     // if (
