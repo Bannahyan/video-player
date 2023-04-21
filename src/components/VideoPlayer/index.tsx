@@ -84,6 +84,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   }, []);
 
   const handleExitFullScreen = (doc: DocumentWithFullscreen) => {
+    alert('www');
     const fullscreenElement =
       doc.fullscreenElement ||
       doc.webkitFullscreenElement ||
