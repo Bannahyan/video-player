@@ -256,11 +256,11 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   };
 
-  const onCanPlay = () => {
-    if (videoRef.current && !durationOfVideo) {
-      setDurationOfVideo(videoRef.current?.duration);
-    }
-  };
+  // const onCanPlay = () => {
+  //   if (videoRef.current && !durationOfVideo) {
+  //     setDurationOfVideo(videoRef.current?.duration);
+  //   }
+  // };
 
   return (
     <div className={styles.videoContainer}>
@@ -272,7 +272,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         }}
         playsInline
         webkit-playsinline='true'
-        onCanPlay={onCanPlay}
+        // onCanPlay={onCanPlay}
       >
         <source src='./assets/sunset.mp4'></source>
       </video>
