@@ -79,10 +79,9 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       screen.orientation.type.includes('landscape')
     ) {
       handleToggleFullScreen(videoRef.current);
+    } else {
+      handleExitFullScreen(document);
     }
-    // else {
-    //   handleExitFullScreen(document);
-    // }
     // if (
     //   screen.orientation.type.includes('landscape') &&
     //   !document.fullscreenElement
