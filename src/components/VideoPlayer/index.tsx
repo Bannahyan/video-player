@@ -80,7 +80,14 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     ) {
       handleToggleFullScreen(videoRef.current);
     } else {
-      alert(909);
+      setTimeout(function () {
+        if (
+          window.orientation === 0 ||
+          screen.orientation.type.includes('portrait')
+        ) {
+          alert('rrrr');
+        }
+      }, 500);
     }
     // if (
     //   screen.orientation.type.includes('landscape') &&
