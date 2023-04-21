@@ -73,7 +73,10 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
-    if (window.orientation === 0) {
+    if (
+      window.orientation === 0 ||
+      screen.orientation.type.includes('portrait')
+    ) {
       // handleExitFullScreen(document);
       alert('portrait');
     }
