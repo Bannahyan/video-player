@@ -161,26 +161,13 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         videoRef.current.pause();
         setIsPaused(true);
       }
-      // getDurationOfVideo();
     }
   };
-  //changing scrubber value every 0.1 second
-  const getDurationOfVideo = () => {
-    const videoIntervalTime = setInterval(() => {
-      if (videoRef.current) {
-        setCurrentDurationOfVideo(videoRef.current.currentTime);
-        if (
-          videoRef.current.currentTime >= durationOfVideo ||
-          videoRef.current.paused
-        ) {
-          clearVideoInterval();
-        }
-      }
-    }, 100);
 
-    const clearVideoInterval = () => {
-      clearInterval(videoIntervalTime);
-    };
+  //changing scrubber value every 0.1 second
+  const handleTimeUpdate = () => {
+    videoRef.current &&
+      setCurrentDurationOfVideo(videoRef.current?.currentTime);
   };
 
   //change current duration of the video during scrubbing
@@ -273,10 +260,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         playsInline
         webkit-playsinline='true'
         onLoadedMetadata={onCanPlay}
-        onTimeUpdate={() =>
-          videoRef.current &&
-          setCurrentDurationOfVideo(videoRef.current?.currentTime)
-        }
+        onTimeUpdate={handleTimeUpdate}
       >
         <source src='./assets/sunset.mp4'></source>
       </video>
