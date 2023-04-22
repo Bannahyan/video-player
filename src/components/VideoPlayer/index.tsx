@@ -104,6 +104,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     } else if (element && element.webkitExitFullScreen) {
       element.webkitExitFullScreen();
     }
+    setIsFullScreen(false);
   };
 
   // Listen for the window.orientationchange event
@@ -221,12 +222,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
       }
-      // else if (element.webkitEnterFullscreen) {
-      //   element.webkitEnterFullscreen(); //For iOS devices
-      //   document.addEventListener('fullscreenerror', event => {
-      //     console.log(`Error attempting to enable full-screen mode: ${event}`);
-      //   });
-      // }
       if (videoElement?.webkitEnterFullscreen) {
         videoElement.webkitEnterFullscreen(); //For iOS devices
         videoElement.addEventListener('fullscreenerror', event => {
@@ -290,7 +285,9 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         isPaused={isPaused}
         videoElement={videoRef.current}
         handleToggleFullScreen={() =>
-          handleToggleFullScreen(containerRef.current, videoRef.current)
+          isFullScreen
+            ? handleExitFullScreen(document, videoRef.current)
+            : handleToggleFullScreen(containerRef.current, videoRef.current)
         }
         isFullScreen={isFullScreen}
       />
