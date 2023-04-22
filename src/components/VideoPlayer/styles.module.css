@@ -7,6 +7,7 @@
 }
 
 .videoContainer video::-webkit-media-controls,
-.videoContainer video::-webkit-media-controls-current-time-display {
+.videoContainer video::-webkit-media-controls-current-time-display,
+.videoContainer video::-webkit-media-controls-start-playback-button {
   display: none;
 }
