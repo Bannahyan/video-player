@@ -5,3 +5,7 @@
 .videoContainer video {
   @apply w-full bg-black;
 }
+
+.videoContainer video::-webkit-media-controls {
+  display: none;
+}
