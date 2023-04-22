@@ -85,7 +85,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     if (window.orientation === 0 || window.orientation === 180) {
       handleExitFullScreen(document, videoRef.current);
     } else if (window.orientation === 90 || window.orientation === -90) {
-      handleToggleFullScreen(videoRef.current);
+      handleToggleFullScreen(containerRef.current, videoRef.current);
     }
   }, []);
 
@@ -196,7 +196,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   //make video fullscreen on button click
   const handleToggleFullScreen = (
-    element: DocumentElementWithFullscreen | null
+    element: DocumentElementWithFullscreen | null,
+    videoElement: DocumentElementWithFullscreen | null
   ) => {
     if (element) {
       if (element.requestFullscreen) {
@@ -219,12 +220,13 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
-      } else if (element.webkitEnterFullscreen) {
-        element.webkitEnterFullscreen(); //For iOS devices
-        document.addEventListener('fullscreenerror', event => {
-          console.log(`Error attempting to enable full-screen mode: ${event}`);
-        });
       }
+      // else if (element.webkitEnterFullscreen) {
+      //   element.webkitEnterFullscreen(); //For iOS devices
+      //   document.addEventListener('fullscreenerror', event => {
+      //     console.log(`Error attempting to enable full-screen mode: ${event}`);
+      //   });
+      // }
       setIsFullScreen(true);
     }
   };
@@ -282,7 +284,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         isPaused={isPaused}
         videoElement={videoRef.current}
         handleToggleFullScreen={() =>
-          handleToggleFullScreen(containerRef.current)
+          handleToggleFullScreen(containerRef.current, videoRef.current)
         }
         isFullScreen={isFullScreen}
       />
