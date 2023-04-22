@@ -91,26 +91,17 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     doc: DocumentWithFullscreen,
     element: DocumentElementWithoutFullScreen | null
   ) => {
-    if (element && element.webkitExitFullScreen) {
+    if (doc.webkitExitFullscreen) {
+      doc.webkitExitFullscreen();
+    } else if (doc.msExitFullscreen) {
+      doc.msExitFullscreen();
+    } else if (doc.mozCancelFullScreen) {
+      doc.mozCancelFullScreen();
+    } else if (doc.exitFullscreen) {
+      doc.exitFullscreen();
+    } else if (element && element.webkitExitFullScreen) {
       element.webkitExitFullScreen();
     }
-    // const fullscreenElement =
-    //   doc.fullscreenElement ||
-    //   doc.webkitFullscreenElement ||
-    //   doc.mozFullScreenElement ||
-    //   doc.msFullscreenElement;
-    // if (doc.webkitExitFullscreen) {
-    //   alert('1');
-    //   doc.webkitExitFullscreen();
-    // } else if (doc.msExitFullscreen) {
-    //   alert(2);
-    //   doc.msExitFullscreen();
-    // } else if (doc.mozCancelFullScreen) {
-    //   alert(4);
-    //   doc.mozCancelFullScreen();
-    // } else if (doc.exitFullscreen) {
-    //   doc.exitFullscreen();
-    // }
   };
 
   // Listen for the window.orientationchange event
