@@ -16,6 +16,10 @@ interface DocumentElementWithFullscreen extends HTMLElement {
   webkitEnterFullscreen?: () => void;
 }
 
+interface DocumentElementWithoutFullScreen extends HTMLVideoElement {
+  webkitExitFullScreen?: () => void;
+}
+
 interface DocumentWithFullscreen extends HTMLDocument {
   msExitFullscreen?: () => void;
   mozCancelFullScreen?: () => void;
@@ -77,30 +81,36 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //handling screen orientation change event to make the video fullscreen
   const orientationChange = useCallback(() => {
     if (window.orientation === 0 || window.orientation === 180) {
-      handleExitFullScreen(document);
+      handleExitFullScreen(document, videoRef.current);
     } else if (window.orientation === 90 || window.orientation === -90) {
       handleToggleFullScreen(videoRef.current);
     }
   }, []);
 
-  const handleExitFullScreen = (doc: DocumentWithFullscreen) => {
-    const fullscreenElement =
-      doc.fullscreenElement ||
-      doc.webkitFullscreenElement ||
-      doc.mozFullScreenElement ||
-      doc.msFullscreenElement;
-    if (doc.webkitExitFullscreen) {
-      alert('1');
-      doc.webkitExitFullscreen();
-    } else if (doc.msExitFullscreen) {
-      alert(2);
-      doc.msExitFullscreen();
-    } else if (doc.mozCancelFullScreen) {
-      alert(4);
-      doc.mozCancelFullScreen();
-    } else if (doc.exitFullscreen) {
-      doc.exitFullscreen();
+  const handleExitFullScreen = (
+    doc: DocumentWithFullscreen,
+    element: DocumentElementWithoutFullScreen | null
+  ) => {
+    if (element && element.webkitExitFullScreen) {
+      element.webkitExitFullScreen();
     }
+    // const fullscreenElement =
+    //   doc.fullscreenElement ||
+    //   doc.webkitFullscreenElement ||
+    //   doc.mozFullScreenElement ||
+    //   doc.msFullscreenElement;
+    // if (doc.webkitExitFullscreen) {
+    //   alert('1');
+    //   doc.webkitExitFullscreen();
+    // } else if (doc.msExitFullscreen) {
+    //   alert(2);
+    //   doc.msExitFullscreen();
+    // } else if (doc.mozCancelFullScreen) {
+    //   alert(4);
+    //   doc.mozCancelFullScreen();
+    // } else if (doc.exitFullscreen) {
+    //   doc.exitFullscreen();
+    // }
   };
 
   // Listen for the window.orientationchange event
