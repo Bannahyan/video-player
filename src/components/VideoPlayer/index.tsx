@@ -38,6 +38,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [areaClicked, setAreaClicked] = useState(false);
   const [forwardClickedTime, setForwardClickedTime] = useState(0);
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -224,6 +225,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
       }
+      setIsFullScreen(true);
     }
   };
 
@@ -282,6 +284,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         handleToggleFullScreen={() =>
           handleToggleFullScreen(containerRef.current)
         }
+        isFullScreen={isFullScreen}
       />
     </div>
   );

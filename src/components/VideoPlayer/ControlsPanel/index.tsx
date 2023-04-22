@@ -1,7 +1,11 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { AiFillCaretRight, AiOutlinePause } from 'react-icons/ai';
 import { FaVolumeUp, FaVolumeMute, FaVolumeDown } from 'react-icons/fa';
-import { MdFullscreen, MdOutlineReplay } from 'react-icons/md';
+import {
+  MdFullscreen,
+  MdOutlineReplay,
+  MdFullscreenExit,
+} from 'react-icons/md';
 import styles from './styles.module.css';
 
 interface ControlsProps {
@@ -12,6 +16,7 @@ interface ControlsProps {
   isPaused: boolean;
   videoElement: HTMLVideoElement | null;
   handleToggleFullScreen: React.MouseEventHandler<HTMLButtonElement>;
+  isFullScreen: boolean;
 }
 
 const Controls = ({
@@ -22,6 +27,7 @@ const Controls = ({
   isPaused,
   videoElement,
   handleToggleFullScreen,
+  isFullScreen,
 }: ControlsProps) => {
   const [volumeOfVideo, setVolumeOfVideo] = useState(50);
   const [muted, setMuted] = useState(false);
@@ -102,7 +108,11 @@ const Controls = ({
           </div>
         </div>
         <button onClick={handleToggleFullScreen} ref={fullScreenRef}>
-          <MdFullscreen color='white' />
+          {isFullScreen ? (
+            <MdFullscreenExit color='white' />
+          ) : (
+            <MdFullscreen color='white' />
+          )}
         </button>
       </div>
     </div>
