@@ -39,6 +39,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const [forwardClickedTime, setForwardClickedTime] = useState(0);
   const [backwardClickedTime, setBackwardClickedTime] = useState(0);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (videoRef.current && !durationOfVideo) {
@@ -233,7 +234,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   };
 
   return (
-    <div className={styles.videoContainer}>
+    <div className={styles.videoContainer} ref={containerRef}>
       <video
         ref={videoRef}
         onClick={() => {
@@ -278,7 +279,9 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         handleTogglePlay={handleTogglePlay}
         isPaused={isPaused}
         videoElement={videoRef.current}
-        handleToggleFullScreen={handleToggleFullScreen}
+        handleToggleFullScreen={() =>
+          handleToggleFullScreen(containerRef.current)
+        }
       />
     </div>
   );

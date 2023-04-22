@@ -11,7 +11,7 @@ interface ControlsProps {
   handleTogglePlay: React.MouseEventHandler<HTMLButtonElement>;
   isPaused: boolean;
   videoElement: HTMLVideoElement | null;
-  handleToggleFullScreen: Function;
+  handleToggleFullScreen: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Controls = ({
@@ -101,10 +101,7 @@ const Controls = ({
             />
           </div>
         </div>
-        <button
-          onClick={() => handleToggleFullScreen(videoElement)}
-          ref={fullScreenRef}
-        >
+        <button onClick={handleToggleFullScreen} ref={fullScreenRef}>
           <MdFullscreen color='white' />
         </button>
       </div>
