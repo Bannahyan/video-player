@@ -84,7 +84,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     if (window.orientation === 0 || window.orientation === 180) {
       handleExitFullScreen(document, videoRef.current);
     } else if (window.orientation === 90 || window.orientation === -90) {
-      handleToggleFullScreen(videoRef.current);
+      handleToggleFullScreen(containerRef.current);
     }
   }, []);
 
