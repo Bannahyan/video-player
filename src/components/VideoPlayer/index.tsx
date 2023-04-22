@@ -119,6 +119,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const handlePausePlayOnExit = useCallback(() => {
     if (videoRef.current) {
       setIsPaused(true);
+      setIsFullScreen(false);
     }
   }, []);
 
