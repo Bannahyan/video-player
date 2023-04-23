@@ -228,6 +228,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   const onLoadedMetadata = () => {
     if (videoRef.current && !durationOfVideo) {
       setDurationOfVideo(videoRef.current?.duration);
+      alert('onLoadedMetadata');
+      alert(videoRef.current?.currentTime);
     }
   };
 
