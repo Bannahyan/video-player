@@ -110,9 +110,9 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   // Listen for the window.orientationchange event
   useEffect(() => {
     window.addEventListener('orientationchange', orientationChange);
-    return () => {
-      window.removeEventListener('orientationchange', orientationChange);
-    };
+    // return () => {
+    //   window.removeEventListener('orientationchange', orientationChange);
+    // };
   }, [orientationChange]);
 
   //Change play/pause icons on exit full screen for iOS devices
