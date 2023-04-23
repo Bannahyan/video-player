@@ -93,17 +93,14 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     element: DocumentElementWithoutFullScreen | null
   ) => {
     if (doc.webkitExitFullscreen) {
-      alert('webkitExitFullscreen');
       doc.webkitExitFullscreen();
     } else if (doc.msExitFullscreen) {
       doc.msExitFullscreen();
     } else if (doc.mozCancelFullScreen) {
       doc.mozCancelFullScreen();
     } else if (doc.exitFullscreen) {
-      alert('exitFullscreen');
       doc.exitFullscreen();
     } else if (element && element.webkitExitFullScreen) {
-      alert('webkitExitFullScreen');
       element.webkitExitFullScreen();
     }
     setIsFullScreen(false);
@@ -197,16 +194,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     videoElement: DocumentElementWithFullscreen | null
   ) => {
     if (element) {
-      if (
-        element.webkitRequestFullscreen &&
-        videoElement?.webkitEnterFullscreen
-      ) {
-        videoElement.webkitEnterFullscreen(); //For iOS devices
-        videoElement.addEventListener('fullscreenerror', event => {
-          console.log(`Error attempting to enable full-screen mode: ${event}`);
-        });
-        return;
-      }
       if (element.requestFullscreen) {
         element
           .requestFullscreen({
