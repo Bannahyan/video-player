@@ -127,13 +127,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         'webkitendfullscreen',
         handlePausePlayOnExit
       );
-    return () => {
-      videoRef.current &&
-        videoRef.current.removeEventListener(
-          'webkitendfullscreen',
-          handlePausePlayOnExit
-        );
-    };
   }, [handlePausePlayOnExit]);
 
   //handling play, pause and replay events
