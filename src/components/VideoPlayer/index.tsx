@@ -235,6 +235,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
 
   const onCanPlay = () => {
     alert('onCanPlay');
+    alert(videoRef.current?.currentTime);
   };
   return (
     <div className={styles.videoContainer} ref={containerRef}>
