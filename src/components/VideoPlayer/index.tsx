@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import Hls from 'hls.js';
 import Controls from './ControlsPanel';
 import ForwardBackward from './ForwardBackwardLayer';
 import PlayPause from './PlayPauseAnimation';
