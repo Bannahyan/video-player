@@ -194,6 +194,16 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     videoElement: DocumentElementWithFullscreen | null
   ) => {
     if (element) {
+      if (
+        element.webkitRequestFullscreen &&
+        videoElement?.webkitEnterFullscreen
+      ) {
+        videoElement.webkitEnterFullscreen(); //For iOS devices
+        videoElement.addEventListener('fullscreenerror', event => {
+          console.log(`Error attempting to enable full-screen mode: ${event}`);
+        });
+        return;
+      }
       if (element.requestFullscreen) {
         element
           .requestFullscreen({
