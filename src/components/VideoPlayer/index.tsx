@@ -248,6 +248,9 @@ const VideoPlayer = ({ src }: PlayerProps) => {
       </video>
       <div style={{ color: 'green' }}>{durationOfVideo} dur</div>
       <div style={{ color: 'green' }}>{currentDurationOfVideo} curdur</div>
+      <div style={{ color: 'green' }}>
+        {videoRef.current?.currentTime} curtime
+      </div>
       <PlayPause
         areaClicked={areaClicked}
         setAreaClicked={setAreaClicked}
