@@ -133,6 +133,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //handling play, pause and replay events
   const handleTogglePlay = () => {
     if (videoRef.current) {
+      videoRef.current.currentTime = currentDurationOfVideo;
       if (videoRef.current.paused) {
         videoRef.current.play();
         setIsPaused(false);
@@ -152,7 +153,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   //change current duration of the video during scrubbing
   const videoDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (videoRef.current) {
-      alert(e.target.value);
       setCurrentDurationOfVideo(parseFloat(e.target.value));
       videoRef.current.currentTime = parseFloat(e.target.value);
     }
