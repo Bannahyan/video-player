@@ -93,14 +93,17 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     element: DocumentElementWithoutFullScreen | null
   ) => {
     if (doc.webkitExitFullscreen) {
+      alert('webkitExitFullscreen');
       doc.webkitExitFullscreen();
     } else if (doc.msExitFullscreen) {
       doc.msExitFullscreen();
     } else if (doc.mozCancelFullScreen) {
       doc.mozCancelFullScreen();
     } else if (doc.exitFullscreen) {
+      alert('exitFullscreen');
       doc.exitFullscreen();
     } else if (element && element.webkitExitFullScreen) {
+      alert('webkitExitFullScreen');
       element.webkitExitFullScreen();
     }
     setIsFullScreen(false);
