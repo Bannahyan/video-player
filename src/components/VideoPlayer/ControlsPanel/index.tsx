@@ -11,7 +11,7 @@ import styles from './styles.module.css';
 interface ControlsProps {
   durationOfVideo: number;
   currentDurationOfVideo: number;
-  videoDuration: React.ChangeEventHandler<HTMLInputElement>;
+  handleChangeCurrentDuration: React.ChangeEventHandler<HTMLInputElement>;
   handleTogglePlay: React.MouseEventHandler<HTMLButtonElement>;
   isPaused: boolean;
   videoElement: HTMLVideoElement | null;
@@ -22,7 +22,7 @@ interface ControlsProps {
 const Controls = ({
   durationOfVideo,
   currentDurationOfVideo,
-  videoDuration,
+  handleChangeCurrentDuration,
   handleTogglePlay,
   isPaused,
   videoElement,
@@ -73,7 +73,7 @@ const Controls = ({
         min='0'
         max={durationOfVideo.toString()}
         value={currentDurationOfVideo}
-        onChange={videoDuration}
+        onChange={handleChangeCurrentDuration}
         className={styles.scrubber}
       />
       <div className={styles.controlsWrapper}>
