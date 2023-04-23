@@ -195,7 +195,6 @@ const VideoPlayer = ({ src }: PlayerProps) => {
   ) => {
     if (element) {
       if (element.requestFullscreen) {
-        alert('requestFullscreen');
         element
           .requestFullscreen({
             navigationUI: 'auto',
@@ -206,20 +205,16 @@ const VideoPlayer = ({ src }: PlayerProps) => {
             );
           });
       } else if (element.mozRequestFullScreen) {
-        alert('mozRequestFullScreen');
         element.mozRequestFullScreen(); // For older versions of Firefox
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
       } else if (element.webkitRequestFullscreen) {
-        alert('webkitRequestFullscreen');
         element.webkitRequestFullscreen(); // For older versions of Chrome, Safari and Opera
         document.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
         });
-      }
-      if (videoElement?.webkitEnterFullscreen) {
-        alert('webkitEnterFullscreen');
+      } else if (videoElement?.webkitEnterFullscreen) {
         videoElement.webkitEnterFullscreen(); //For iOS devices
         videoElement.addEventListener('fullscreenerror', event => {
           console.log(`Error attempting to enable full-screen mode: ${event}`);
