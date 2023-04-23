@@ -243,6 +243,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         webkit-playsinline='true'
         onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
+        onCanPlay={() => alert('canplay')}
       >
         <source src='./assets/sunset.mp4'></source>
       </video>
