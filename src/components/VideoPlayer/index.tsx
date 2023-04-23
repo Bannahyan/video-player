@@ -233,6 +233,12 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   };
 
+  const onCanPlay = () => {
+    alert('onCanPlay');
+    videoRef.current?.load();
+    videoRef.current?.pause();
+    videoRef.current?.play();
+  };
   return (
     <div className={styles.videoContainer} ref={containerRef}>
       <video
@@ -245,7 +251,7 @@ const VideoPlayer = ({ src }: PlayerProps) => {
         webkit-playsinline='true'
         onLoadedMetadata={onLoadedMetadata}
         onTimeUpdate={handleTimeUpdate}
-        onCanPlay={() => alert('canplay')}
+        onCanPlay={onCanPlay}
       >
         <source src='./assets/sunset.mp4'></source>
       </video>
