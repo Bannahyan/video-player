@@ -19,6 +19,8 @@ interface DocumentElementWithoutFullScreen extends HTMLVideoElement {
   webkitExitFullScreen?: () => void;
 }
 
+//test
+
 interface DocumentWithFullscreen extends HTMLDocument {
   msExitFullscreen?: () => void;
   mozCancelFullScreen?: () => void;
