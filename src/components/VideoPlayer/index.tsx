@@ -90,6 +90,8 @@ const VideoPlayer = ({ src }: PlayerProps) => {
     }
   }, []);
 
+  //test test
+
   const handleExitFullScreen = (
     doc: DocumentWithFullscreen,
     element: DocumentElementWithoutFullScreen | null
